@@ -37,6 +37,10 @@ system prompt, task, and environment feedback (role `user`) are context.
 - **Train/test overlap in MedAgentGym's BioCoder split:** 69 of 157 test tasks share a function
   signature with a training task (60 of those 69 have an identical reference solution; problem text is reworded).
   37 SFT trajectories are on those functions.
+  - Root cause (from MedAgentGym-Data `biocoder/train_data/` scripts): the 981 training tasks were generated from
+    BioCoder's `python_hidden.json` (1,026 functions -> LLM-written question + context; 45 failed to parse -> 981).
+    60 of the 157 test reference solutions are also in that hidden set, and no function-level dedup was done.
+    The paper's 10-gram decontamination compares text, and the training questions are reworded, so it can't catch this.
   - `sft_full_*`  : all 351 (334 train / 17 val) — use for faithful reproduction
   - `sft_clean_*` : drops the 37 (299 / 15) — use for contamination-free runs
   - `test_overlap.json` : overlapping test `idx` values -> report every result on full (157) and clean (88) test sets

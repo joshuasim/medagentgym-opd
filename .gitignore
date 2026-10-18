@@ -1,0 +1,17 @@
+# secrets / API keys
+.env
+*.env
+credentials.toml
+*token*
+
+# downloaded datasets and models (regenerate, don't commit)
+SampledTrajs/
+MedAgentGym-Data/
+checkpoints/
+outputs/
+wandb/
+
+# python / OS junk
+__pycache__/
+*.pyc
+.DS_Store
