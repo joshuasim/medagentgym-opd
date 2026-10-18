@@ -1,0 +1,1302 @@
+{
+  "summary": {
+    "n": 157,
+    "status": {
+      "ok": 87,
+      "error": 55,
+      "nondet": 15
+    },
+    "flags": {
+      "stderr": 15
+    },
+    "usable_ok": 87
+  },
+  "tasks": [
+    {
+      "idx": "61beb3529846e024cdff01d3e2ba1a1ec4212dd64426028deb1065f1975bd376",
+      "function": "sanitize_tex",
+      "status": "ok",
+      "flags": [],
+      "output_head": "\\&\\$\\$\\&\\_\\%\\%\\%\\&\\$\\&\\&\\{\\$\\{\\}\\$\\$\\$\\%\\%\\{\\{\\$\\{\\%\\&\\&\\&\\{\\}\\%\\}\\{\\_\\#\\#\\$\\#\\#\\%\\&\\}\\_\\_\\%\\%\\#\\_\\$\\$\\}\\$\\_\\#\\_\\{\\_\\#\\$\\&\\}\\{\\$\\}\\$\\{\\_\\#\\&\\{\\#\\_\\{\\%\\&\\$\\$\\&\\%\\#\\_\\$\\#\\%\\#\\$\\}\\_\\}\\&\\#\\_\\%\\_\\_\\%\\&\\_\\&\n",
+      "output_tail": "\\&\\$\\$\\&\\_\\%\\%\\%\\&\\$\\&\\&\\{\\$\\{\\}\\$\\$\\$\\%\\%\\{\\{\\$\\{\\%\\&\\&\\&\\{\\}\\%\\}\\{\\_\\#\\#\\$\\#\\#\\%\\&\\}\\_\\_\\%\\%\\#\\_\\$\\$\\}\\$\\_\\#\\_\\{\\_\\#\\$\\&\\}\\{\\$\\}\\$\\{\\_\\#\\&\\{\\#\\_\\{\\%\\&\\$\\$\\&\\%\\#\\_\\$\\#\\%\\#\\$\\}\\_\\}\\&\\#\\_\\%\\_\\_\\%\\&\\_\\&\n"
+    },
+    {
+      "idx": "98b443b728881547cc9d48a5ccb5f26c65aa1cbafd482b962b85a4b2e4725d3f",
+      "function": "filter_kmers",
+      "status": "ok",
+      "flags": [],
+      "output_head": "(('AAGCCCANAN', 100.0),)\n",
+      "output_tail": "(('AAGCCCANAN', 100.0),)\n"
+    },
+    {
+      "idx": "2d015ec246f4c4a51882a967a686e7b8934cc4d09d7f44e68ede099f3ec62a54",
+      "function": "UnifyLevels",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[ 0  1  2  2  5  5  6  7 10 13 17 17 19]\n",
+      "output_tail": "[ 0  1  2  2  5  5  6  7 10 13 17 17 19]\n"
+    },
+    {
+      "idx": "35f4cb30a8dcc362fbae8118cf9853d52824d045109512d2f49f7d886d0400c9",
+      "function": "weighted_median",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpcoojli20/task.py\", line 68, in <module>\n    main()\n  File \"/tmp/tmpcoojli20/task.py\", line 66, in main\n    print(weighted_median(a, weights))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpcoojli20/task.py\", line 26, in wrapper\n    a = np.as",
+      "output_tail": "y\", line 26, in wrapper\n    a = np.asfarray(a)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "dee33357a68b4ddb0c4660e31930bd3f1ce9025bace07cd1846e13233c747250",
+      "function": "apply_threshold",
+      "status": "ok",
+      "flags": [],
+      "output_head": "(array([[False,  True, False, False, False,  True, False, False, False,\n         True, False, False, False, False,  True, False,  True,  True,\n         True, False,  True, False,  True,  True,  True,  True,  True,\n         True],\n       [ True,  True, False, False,  True,  True,  True, False,  True,",
+      "output_tail": " False,  True,  True, False,  True,  True,  True,\n         True],\n       [ True, False, False, False,  True,  True, False,  True, False,\n        False, False,  True,  True, False, False, False, False,  True,\n         True, False, False,  True,  True, False, False, False,  True,\n         True]]), 0)\n"
+    },
+    {
+      "idx": "72a57b575872e12b8e75d1812e94024b89ffec11bc313c056fc0acd750b3c935",
+      "function": "savgol",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpuav6cbks/task.py\", line 114, in <module>\n    main()\n  File \"/tmp/tmpuav6cbks/task.py\", line 112, in main\n    print(savgol(x))\n          ^^^^^^^^^\n  File \"/tmp/tmpuav6cbks/task.py\", line 84, in savgol\n    x, total_wing, signal = check_inputs(x, tota",
+      "output_tail": "ine 42, in check_inputs\n    x = np.asfarray(x)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "05678f6e3f7504b1b5f0370160fc95a91f25bd5cf029e3c7af7ba9b39ec06fa7",
+      "function": "discard_objects",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[0 1 0 0 1 1 1 1 1 1]\n",
+      "output_tail": "[0 1 0 0 1 1 1 1 1 1]\n"
+    },
+    {
+      "idx": "ecd00a33fae4c54b52ed5f0c75e398bd8ef360654aa9645f8ca3102052d37903",
+      "function": "candidates",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpw0cmpxwm/task.py\", line 66, in <module>\n    main()\n  File \"/tmp/tmpw0cmpxwm/task.py\", line 64, in main\n    print(Goldilocks().candidates)\n          ^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'Goldilocks' object has no attribute 'candidates'\n",
+      "output_tail": "\nTraceback (most recent call last):\n  File \"/tmp/tmpw0cmpxwm/task.py\", line 66, in <module>\n    main()\n  File \"/tmp/tmpw0cmpxwm/task.py\", line 64, in main\n    print(Goldilocks().candidates)\n          ^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'Goldilocks' object has no attribute 'candidates'\n"
+    },
+    {
+      "idx": "dd4f41edf4fa354ae9459dfa8bc9fc6843c1bbe00673524b35a8d61ff59804b2",
+      "function": "compute_rand_index",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp8x0vmayr/task.py\", line 84, in <module>\n    main()\n  File \"/tmp/tmp8x0vmayr/task.py\", line 82, in main\n    print(MeasureImageOverlap().compute_rand_index(test_labels, ground_truth_labels, mask))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAt",
+      "output_tail": "n <module>\n    main()\n  File \"/tmp/tmp8x0vmayr/task.py\", line 82, in main\n    print(MeasureImageOverlap().compute_rand_index(test_labels, ground_truth_labels, mask))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'MeasureImageOverlap' object has no attribute 'compute_rand_index'\n"
+    },
+    {
+      "idx": "380164321290d63dddc665903d8241dec0c1f3baefaaddc137ed61311a6a44f3",
+      "function": "default_shard_count",
+      "status": "ok",
+      "flags": [],
+      "output_head": "1\n",
+      "output_tail": "1\n"
+    },
+    {
+      "idx": "afd8fa6d85b7f62eaf1aa322e0f11285c66175e055be57f9abad9c5f565ae979",
+      "function": "readFileContents",
+      "status": "ok",
+      "flags": [],
+      "output_head": "deadbeef\ndeadbeef\ndeadbeef\ndeadbeef\ndeadbeef\n\n",
+      "output_tail": "deadbeef\ndeadbeef\ndeadbeef\ndeadbeef\ndeadbeef\n\n"
+    },
+    {
+      "idx": "1a8813e6320529b9bdaf555066418d00bd8dc4b0d0d488458773346d2cc0e7af",
+      "function": "binary_erosion",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[False False False False False False False False False False]\n [False False False False False False False False False False]\n [False False False False False False False False False False]\n [False False False  True False False False False False False]\n [False False False False False False False Fals",
+      "output_tail": "py:18: FutureWarning: `binary_erosion` is deprecated since version 0.26 and will be removed in version 0.28. Use `skimage.morphology.erosion` instead. Note the pixel shift by 1 for even-sized footprints (see docstring notes).\n  y_data = skimage.morphology.binary_erosion(x_data, structuring_element)\n"
+    },
+    {
+      "idx": "ea3511058fbeb1e2b70646ad693af1dbcd07f818faad15b1efda20fe499f9f01",
+      "function": "fill_convex_hulls",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[0 1 0]\n [0 0 1]\n [0 0 0]]\n\n/tmp/tmpk_5zfwfn/task.py:12: FutureWarning: `RegionProperties['convex_image']` is deprecated starting in version 0.26 and will be removed in version 2.0. Use `RegionProperties['image_convex']` instead. \n  cmask = prop['convex_image']\n",
+      "output_tail": "[[0 1 0]\n [0 0 1]\n [0 0 0]]\n\n/tmp/tmpk_5zfwfn/task.py:12: FutureWarning: `RegionProperties['convex_image']` is deprecated starting in version 0.26 and will be removed in version 2.0. Use `RegionProperties['image_convex']` instead. \n  cmask = prop['convex_image']\n"
+    },
+    {
+      "idx": "e9245cfaca0657d3d0dae7f3319b677899e8c8acb6bf38092e6f95de494133b4",
+      "function": "upgrade_settings",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpxa2sl8r0/task.py\", line 42, in <module>\n    main()\n  File \"/tmp/tmpxa2sl8r0/task.py\", line 40, in main\n    print(TrackObjects().upgrade_settings(setting_values, variable_revision_number, None))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeErr",
+      "output_tail": "ask.py\", line 42, in <module>\n    main()\n  File \"/tmp/tmpxa2sl8r0/task.py\", line 40, in main\n    print(TrackObjects().upgrade_settings(setting_values, variable_revision_number, None))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'TrackObjects' object has no attribute 'upgrade_settings'\n"
+    },
+    {
+      "idx": "96dd981b23f8f43d12382f0b839d2421e59634da6cf81549a25a250da71c01ad",
+      "function": "morphology_closing",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[1 1 0 0 0 1 0 0 0 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1]\n [1 1 1 0 1 1 1 0 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]\n [1 1 0 0 0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]\n [1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0]\n [1 1 1 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0]\n [1 1",
+      "output_tail": " 1]\n [1 1 1 1 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1]\n [1 1 0 1 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1]\n [1 0 0 0 1 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1]]\n"
+    },
+    {
+      "idx": "59017e485245a70067de9862f24f260f81e1de03a1a6229b5f0837dabad2de51",
+      "function": "get_text",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpuc5xhp4p/task.py\", line 29, in <module>\n    main()\n  File \"/tmp/tmpuc5xhp4p/task.py\", line 27, in main\n    print(obj.get_text(0, 5))\n          ^^^^^^^^^^^^\nAttributeError: 'MetadataControl' object has no attribute 'get_text'\n",
+      "output_tail": "\nTraceback (most recent call last):\n  File \"/tmp/tmpuc5xhp4p/task.py\", line 29, in <module>\n    main()\n  File \"/tmp/tmpuc5xhp4p/task.py\", line 27, in main\n    print(obj.get_text(0, 5))\n          ^^^^^^^^^^^^\nAttributeError: 'MetadataControl' object has no attribute 'get_text'\n"
+    },
+    {
+      "idx": "65ed8a9bd24b16aab91d40c72446cc061152fa53172138db2dd33a4900b5a021",
+      "function": "outlines",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpm6m12qp6/task.py\", line 37, in <module>\n    main()\n  File \"/tmp/tmpm6m12qp6/task.py\", line 35, in main\n    print(obj.outlines)\n          ^^^^^^^^^^^^\nAttributeError: 'OutlinesMixin' object has no attribute 'outlines'. Did you mean: '_outlines'?\n",
+      "output_tail": "\nTraceback (most recent call last):\n  File \"/tmp/tmpm6m12qp6/task.py\", line 37, in <module>\n    main()\n  File \"/tmp/tmpm6m12qp6/task.py\", line 35, in main\n    print(obj.outlines)\n          ^^^^^^^^^^^^\nAttributeError: 'OutlinesMixin' object has no attribute 'outlines'. Did you mean: '_outlines'?\n"
+    },
+    {
+      "idx": "b2d2956c4ecbc50d348ec9675aa39f23d596b2ce78e18d19d69c6986eb3eb77c",
+      "function": "_check_shapeit_align_file",
+      "status": "ok",
+      "flags": [],
+      "output_head": "False\n",
+      "output_tail": "False\n"
+    },
+    {
+      "idx": "13ceb9f852533ad795ab090cd59289b6444e0d6a5e0a2610b3a26ba4404fc94f",
+      "function": "get_bit_depth",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp688_zstw/task.py\", line 33, in <module>\n    main()\n  File \"/tmp/tmp688_zstw/task.py\", line 31, in main\n    print(obj.get_bit_depth())\n          ^^^^^^^^^^^^^^^^^\nAttributeError: 'SaveImages' object has no attribute 'get_bit_depth'. Did you mean: 'b",
+      "output_tail": "(most recent call last):\n  File \"/tmp/tmp688_zstw/task.py\", line 33, in <module>\n    main()\n  File \"/tmp/tmp688_zstw/task.py\", line 31, in main\n    print(obj.get_bit_depth())\n          ^^^^^^^^^^^^^^^^^\nAttributeError: 'SaveImages' object has no attribute 'get_bit_depth'. Did you mean: 'bit_depth'?\n"
+    },
+    {
+      "idx": "503abbacaef8d6a43c521bf726f7b25cdf84ba33d22100dcb4b59b596eeac29e",
+      "function": "parse_contig_file_name",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmphpyll65w/task.py\", line 3, in <module>\n    import aTRAM.lib.db_stitcher\nModuleNotFoundError: No module named 'aTRAM'\n",
+      "output_tail": "\nTraceback (most recent call last):\n  File \"/tmp/tmphpyll65w/task.py\", line 3, in <module>\n    import aTRAM.lib.db_stitcher\nModuleNotFoundError: No module named 'aTRAM'\n"
+    },
+    {
+      "idx": "cd3de0a94196814e8e55e09eb8c5be6ec7b25e35d2c03fc3fc64b95b1e2a9f29",
+      "function": "absolute_reference",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[1 1 1 1]\n",
+      "output_tail": "[1 1 1 1]\n"
+    },
+    {
+      "idx": "dcff0d6a186a8ca79287265319a58f4a4f920af873957b4a08c552664372b337",
+      "function": "linear_costes",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpo00vdf_w/task.py\", line 76, in <module>\n    main()\n  File \"/tmp/tmpo00vdf_w/task.py\", line 74, in main\n    print(obj.linear_costes(fi, si))\n          ^^^^^^^^^^^^^^^^^\nAttributeError: 'MeasureColocalization' object has no attribute 'linear_costes'\n",
+      "output_tail": "\nTraceback (most recent call last):\n  File \"/tmp/tmpo00vdf_w/task.py\", line 76, in <module>\n    main()\n  File \"/tmp/tmpo00vdf_w/task.py\", line 74, in main\n    print(obj.linear_costes(fi, si))\n          ^^^^^^^^^^^^^^^^^\nAttributeError: 'MeasureColocalization' object has no attribute 'linear_costes'\n"
+    },
+    {
+      "idx": "ecdcc7d4ebba6e5ecdeea04d719b82835e41ce30828ebdf60d749aa1887fc099",
+      "function": "maf_dosage_from_probs",
+      "status": "ok",
+      "flags": [],
+      "output_head": "(array([-0.41470219, -0.63479513,  1.27621684,  1.69937269,  1.43604605,\n       -0.65413071,  0.07117595,  1.79024008,  0.71490582, -0.23481488]), np.float64(0.2524757261572065), 'A', 'G')\n",
+      "output_tail": "(array([-0.41470219, -0.63479513,  1.27621684,  1.69937269,  1.43604605,\n       -0.65413071,  0.07117595,  1.79024008,  0.71490582, -0.23481488]), np.float64(0.2524757261572065), 'A', 'G')\n"
+    },
+    {
+      "idx": "e8f552d7801c2f1a6656e7d59fb54515fe24a17ff2197c5f8aa6b2180fc72841",
+      "function": "filter_on_size",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpf0aiz7zz/task.py\", line 46, in <module>\n    main()\n  File \"/tmp/tmpf0aiz7zz/task.py\", line 44, in main\n    print(obj.filter_on_size(labeled_image, object_count))\n          ^^^^^^^^^^^^^^^^^^\nAttributeError: 'IdentifyPrimaryObjects' object has no at",
+      "output_tail": "all last):\n  File \"/tmp/tmpf0aiz7zz/task.py\", line 46, in <module>\n    main()\n  File \"/tmp/tmpf0aiz7zz/task.py\", line 44, in main\n    print(obj.filter_on_size(labeled_image, object_count))\n          ^^^^^^^^^^^^^^^^^^\nAttributeError: 'IdentifyPrimaryObjects' object has no attribute 'filter_on_size'\n"
+    },
+    {
+      "idx": "5a24c3576df6abbd43abd62a216033334e263ca312117785ce95dfd5e2ee3c5b",
+      "function": "_calc_overlap",
+      "status": "ok",
+      "flags": [],
+      "output_head": "30\n",
+      "output_tail": "30\n"
+    },
+    {
+      "idx": "ab829784be3d8531167f469dc3de00e06b24aa17d81b624b701a2cc9fa811a1c",
+      "function": "channels_and_image_names",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp4f6x131c/task.py\", line 46, in <module>\n    main()\n  File \"/tmp/tmp4f6x131c/task.py\", line 44, in main\n    print(ColorToGray().channels_and_image_names())\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'ColorToGray' object has no ",
+      "output_tail": " File \"/tmp/tmp4f6x131c/task.py\", line 46, in <module>\n    main()\n  File \"/tmp/tmp4f6x131c/task.py\", line 44, in main\n    print(ColorToGray().channels_and_image_names())\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'ColorToGray' object has no attribute 'channels_and_image_names'\n"
+    },
+    {
+      "idx": "6e9f142968d7ccbabeb8e2af6c05678367e0a4549f74525d048878f1c7337770",
+      "function": "read_bim",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "      chrom  name  cm  pos  a1  a2\n0  deadbeef    84  17    6  97  38\n\n/tmp/tmpkzjvfsah/task.py:38: FutureWarning: The 'delim_whitespace' keyword in pd.read_csv is deprecated and will be removed in a future version. Use ``sep='\\s+'`` instead\n  data = pd.read_csv(bim_fn, delim_whitespace=True, names=",
+      "output_tail": "m  name  cm  pos  a1  a2\n0  deadbeef    84  17    6  97  38\n\n/tmp/tmpkzjvfsah/task.py:38: FutureWarning: The 'delim_whitespace' keyword in pd.read_csv is deprecated and will be removed in a future version. Use ``sep='\\s+'`` instead\n  data = pd.read_csv(bim_fn, delim_whitespace=True, names=['chrom',\n"
+    },
+    {
+      "idx": "a66bdb286ec2ec5acead6d2f3ab8d94c3e6d6cc79bf055f5bbc9d4bf65c461fc",
+      "function": "repeat_count",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpatqw71uz/task.py\", line 28, in <module>\n    main()\n  File \"/tmp/tmpatqw71uz/task.py\", line 26, in main\n    print(MorphSettingsGroup().repeat_count)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'MorphSettingsGroup' object has no attri",
+      "output_tail": "ent call last):\n  File \"/tmp/tmpatqw71uz/task.py\", line 28, in <module>\n    main()\n  File \"/tmp/tmpatqw71uz/task.py\", line 26, in main\n    print(MorphSettingsGroup().repeat_count)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'MorphSettingsGroup' object has no attribute 'repeat_count'\n"
+    },
+    {
+      "idx": "121f59f1617223aaa928fa54ddf2eb141a4a79c77b9a538a78ae881b62d838c7",
+      "function": "absolute_clonal",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmppk2upyhv/task.py\", line 227, in <module>\n    main()\n  File \"/tmp/tmppk2upyhv/task.py\", line 225, in main\n    print(absolute_clonal(cnarr, 2, 0.5, random.randint(0, 1), random.randint(0, 1)))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+      "output_tail": ".zeros(len(cnarr), dtype=np.float_)\n                                           ^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.float_` was removed in the NumPy 2.0 release. Use `np.float64` instead.\n"
+    },
+    {
+      "idx": "93307b235b74981a1956bd4cd127413a2606a312f5fa3fdeb3ad83729afee086",
+      "function": "handle_duplicate_name",
+      "status": "ok",
+      "flags": [],
+      "output_head": "contig_v2\n",
+      "output_tail": "contig_v2\n"
+    },
+    {
+      "idx": "039995e595294ce57e78725e8cb22f5c90d5f00536314a366bc895f347cdf8ce",
+      "function": "gradient_image",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[0.76843775 0.41780051 0.7236068  0.32443828 0.85355339 0.39153477\n  0.00970966 0.69695965 0.85355339        nan]\n [0.91602515 0.14644661 0.36263944 0.7236068  0.9472136  0.14644661\n  0.06105221 0.5        0.1095656  0.01492875]\n [0.         0.12371165 0.06811055 0.91602515 0.25193053 0.65811388\n  ",
+      "output_tail": "86106 0.02565835\n  0.16781808 0.75724788 0.7236068  0.37873219]\n [0.06587843 0.06292136 0.03183541 0.07600085 0.00502525 0.00680304\n  0.0527864  0.65811388 0.7236068  0.45024814]]\n\n/tmp/tmpiawgjqaq/task.py:25: RuntimeWarning: invalid value encountered in divide\n  gradient_image = 0.5 + y / norm / 2\n"
+    },
+    {
+      "idx": "7910020a5e2e6aee6a73e83c554bf33f196ba8dad670d5503b9a8adfc4fba953",
+      "function": "_mirrored_baf",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[6. 3. 7. 4. 6. 9. 2. 6. 7. 4.]\n",
+      "output_tail": "[6. 3. 7. 4. 6. 9. 2. 6. 7. 4.]\n"
+    },
+    {
+      "idx": "65439252472f7ecdc1aeacd417e17365657dcf0d9e3db144795ea070db2a95c8",
+      "function": "combine_arrays",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp382xvwvo/task.py\", line 78, in <module>\n    main()\n  File \"/tmp/tmp382xvwvo/task.py\", line 76, in main\n    print(obj.combine_arrays(labels_x, labels_y))\n          ^^^^^^^^^^^^^^^^^^\nAttributeError: 'CombineObjects' object has no attribute 'combine_",
+      "output_tail": "ck (most recent call last):\n  File \"/tmp/tmp382xvwvo/task.py\", line 78, in <module>\n    main()\n  File \"/tmp/tmp382xvwvo/task.py\", line 76, in main\n    print(obj.combine_arrays(labels_x, labels_y))\n          ^^^^^^^^^^^^^^^^^^\nAttributeError: 'CombineObjects' object has no attribute 'combine_arrays'\n"
+    },
+    {
+      "idx": "ee9cb722c43131f5a4ad85e8d53def89437b67a7cbdbf012ff9386f26a3cc5dd",
+      "function": "get_maxima",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmply10_3yp/task.py\", line 49, in <module>\n    main()\n  File \"/tmp/tmply10_3yp/task.py\", line 47, in main\n    print(obj.get_maxima(image, labeled_image, None, image_resize_factor))\n          ^^^^^^^^^^^^^^\nAttributeError: 'IdentifyPrimaryObjects' obje",
+      "output_tail": "):\n  File \"/tmp/tmply10_3yp/task.py\", line 49, in <module>\n    main()\n  File \"/tmp/tmply10_3yp/task.py\", line 47, in main\n    print(obj.get_maxima(image, labeled_image, None, image_resize_factor))\n          ^^^^^^^^^^^^^^\nAttributeError: 'IdentifyPrimaryObjects' object has no attribute 'get_maxima'\n"
+    },
+    {
+      "idx": "40c274a0d27765e51bd170627e7d18f17c8509a1e842de599de108eb885b8782",
+      "function": "_chr_x_label",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpixry1c1u/task.py\", line 285, in <module>\n    main()\n  File \"/tmp/tmpixry1c1u/task.py\", line 283, in main\n    print(CopyNumArray()._chr_x_label)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'CopyNumArray' object has no attribute '_chr_x_lab",
+      "output_tail": "ceback (most recent call last):\n  File \"/tmp/tmpixry1c1u/task.py\", line 285, in <module>\n    main()\n  File \"/tmp/tmpixry1c1u/task.py\", line 283, in main\n    print(CopyNumArray()._chr_x_label)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'CopyNumArray' object has no attribute '_chr_x_label'\n"
+    },
+    {
+      "idx": "4bf2b58ad84baa7e3d837d0559c02db6d00742e60e8aeffb323dd40c306eb81b",
+      "function": "execute_subprocess",
+      "status": "ok",
+      "flags": [],
+      "output_head": "Running command: echo Hello, World!; STDIN: None; STDOUT: None\nHello, World!\n",
+      "output_tail": "Running command: echo Hello, World!; STDIN: None; STDOUT: None\nHello, World!\n"
+    },
+    {
+      "idx": "68dfad1d29286eb5ed66d4829aac801150b03f19d164f6d7a64d6bea8895f6d0",
+      "function": "random_number_generator",
+      "status": "ok",
+      "flags": [],
+      "output_head": "19710\n",
+      "output_tail": "19710\n"
+    },
+    {
+      "idx": "74d172b78248137b68f967acca83674240058124b8f3856a77a162ae482ab32f",
+      "function": "get_formula",
+      "status": "ok",
+      "flags": [],
+      "output_head": "OhbVrpoiVg ~ _GenoD + RVIfLBcbfn + oGMbJmTPSI + AoCLrZaWZk + SBvrjnWvgf + ygwwMqZcUD\n",
+      "output_tail": "OhbVrpoiVg ~ _GenoD + RVIfLBcbfn + oGMbJmTPSI + AoCLrZaWZk + SBvrjnWvgf + ygwwMqZcUD\n"
+    },
+    {
+      "idx": "e3868addcfacba2879e6eea6bc0cccd92fa46d99a42bf39d306e24ccc1f5fa21",
+      "function": "skat_read_snp_set",
+      "status": "ok",
+      "flags": [],
+      "output_head": "      variant     snp_set\n0  OhbVrpoiVg  RVIfLBcbfn\n1  oGMbJmTPSI  AoCLrZaWZk\n2  SBvrjnWvgf  ygwwMqZcUD\n3  IhyfJsONxK  mTecQoXsfo\n4  gyrDOxkxwn  QrSRPeMOkI\n",
+      "output_tail": "      variant     snp_set\n0  OhbVrpoiVg  RVIfLBcbfn\n1  oGMbJmTPSI  AoCLrZaWZk\n2  SBvrjnWvgf  ygwwMqZcUD\n3  IhyfJsONxK  mTecQoXsfo\n4  gyrDOxkxwn  QrSRPeMOkI\n"
+    },
+    {
+      "idx": "d74b80cfdd2ab5a652141c2c289db7ce47cac544d848e123ee47e7e714726662",
+      "function": "splitpath",
+      "status": "error",
+      "flags": [],
+      "output_head": "IndentationError: expected an indented block after class definition on line 3 (<string>, line 5)",
+      "output_tail": "IndentationError: expected an indented block after class definition on line 3 (<string>, line 5)"
+    },
+    {
+      "idx": "59969e1d823e187aad7dbeae4facd17e2b44109d7fadba0ab168bbd9a6e66a1a",
+      "function": "tex_inline_math",
+      "status": "ok",
+      "flags": [],
+      "output_head": "$E = mc^2$\n",
+      "output_tail": "$E = mc^2$\n"
+    },
+    {
+      "idx": "0e02268c0a233e14a858a7ac0ea19b22e6804cc0c24f1b41c9a1884d1559f866",
+      "function": "rolling_outlier_std",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpqqc4wgol/task.py\", line 239, in <module>\n    main()\n  File \"/tmp/tmpqqc4wgol/task.py\", line 237, in main\n    print(rolling_outlier_std(x, 3, 0.7))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpqqc4wgol/task.py\", line 229, in rolling_outl",
+      "output_tail": "ine 42, in check_inputs\n    x = np.asfarray(x)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "f0e2e346fdeb56c56d3a7dd957c8ade899d8b21cdaa64a113fba1069b114bfe9",
+      "function": "additive_from_probs",
+      "status": "ok",
+      "flags": [],
+      "output_head": "(array([1, 0, 1]), 'B', 'A')\n",
+      "output_tail": "(array([1, 0, 1]), 'B', 'A')\n"
+    },
+    {
+      "idx": "3f0c46aff0ca94f75b51339a4c8474d9ba061628526b308d3d1f2271aa4df968",
+      "function": "wants_well_tables",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpbl7ogr1y/task.py\", line 23, in <module>\n    main()\n  File \"/tmp/tmpbl7ogr1y/task.py\", line 21, in main\n    print(ExportToDatabase().wants_well_tables)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'ExportToDatabase' object has no a",
+      "output_tail": "last):\n  File \"/tmp/tmpbl7ogr1y/task.py\", line 23, in <module>\n    main()\n  File \"/tmp/tmpbl7ogr1y/task.py\", line 21, in main\n    print(ExportToDatabase().wants_well_tables)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'ExportToDatabase' object has no attribute 'wants_well_tables'\n"
+    },
+    {
+      "idx": "73acd97d0266545079d313835559ea1bbd569bcb760e3d8d13c1c739783124b7",
+      "function": "get_measurement_name",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpu7t_o3tm/task.py\", line 30, in <module>\n    main()\n  File \"/tmp/tmpu7t_o3tm/task.py\", line 28, in main\n    print(MeasureObjectNeighbors().get_measurement_name('Area'))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'Measure",
+      "output_tail": "k.py\", line 30, in <module>\n    main()\n  File \"/tmp/tmpu7t_o3tm/task.py\", line 28, in main\n    print(MeasureObjectNeighbors().get_measurement_name('Area'))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'MeasureObjectNeighbors' object has no attribute 'get_measurement_name'\n"
+    },
+    {
+      "idx": "5a848a8fc241bea62b3a15fe0c35f2ff2849623f2d52fa5ed389fd7a53cd0abd",
+      "function": "ignore_object",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpwblifjq2/task.py\", line 27, in <module>\n    main()\n  File \"/tmp/tmpwblifjq2/task.py\", line 25, in main\n    print(ExportToDatabase().ignore_object(EXPERIMENT if 1 else 'bet'))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'ExportToDatab",
+      "output_tail": "tmp/tmpwblifjq2/task.py\", line 27, in <module>\n    main()\n  File \"/tmp/tmpwblifjq2/task.py\", line 25, in main\n    print(ExportToDatabase().ignore_object(EXPERIMENT if 1 else 'bet'))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'ExportToDatabase' object has no attribute 'ignore_object'\n"
+    },
+    {
+      "idx": "75b7dfaf90674d4fad440e00c890817001fea8755cbe6608027e260befcb77f7",
+      "function": "outlier_mad_median",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmppq6iw14z/task.py\", line 140, in <module>\n    main()\n  File \"/tmp/tmppq6iw14z/task.py\", line 138, in main\n    print(outlier_mad_median(x))\n          ^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmppq6iw14z/task.py\", line 132, in outlier_mad_median\n    mad = m",
+      "output_tail": "y\", line 75, in wrapper\n    a = np.asfarray(a)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "6bf3898c8309e4e5381c037cef03fc6b20a8a51fd0ee40d03a77ddef2937d50e",
+      "function": "__bucketize",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpvq49rv79/task.py\", line 73, in <module>\n    main()\n  File \"/tmp/tmpvq49rv79/task.py\", line 71, in main\n    print(Goldilocks()._Goldilocks__bucketize(scores_to_bucket))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'Goldilocks' objec",
+      "output_tail": "/tmp/tmpvq49rv79/task.py\", line 73, in <module>\n    main()\n  File \"/tmp/tmpvq49rv79/task.py\", line 71, in main\n    print(Goldilocks()._Goldilocks__bucketize(scores_to_bucket))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'Goldilocks' object has no attribute '_Goldilocks__bucketize'\n"
+    },
+    {
+      "idx": "265a0dd5a963e08b589a01afe987605ace8d2c977739e0ad82c71b6b5b73d707",
+      "function": "v_factors",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[-57.15898375  -1.59807621]\n",
+      "output_tail": "[-57.15898375  -1.59807621]\n"
+    },
+    {
+      "idx": "af6b321efa46a62909f3a138264a04b703d00cf87c3b78e4e4088535761f1958",
+      "function": "seqwrap",
+      "status": "ok",
+      "flags": [],
+      "output_head": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "output_tail": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n*\n\n"
+    },
+    {
+      "idx": "0c8c033e639e44bc7f9a2797464401f265a35f3f0ba3c21d84bcaf954347188c",
+      "function": "unpipe_name",
+      "status": "ok",
+      "flags": [],
+      "output_head": "ABL1\n",
+      "output_tail": "ABL1\n"
+    },
+    {
+      "idx": "3fdd050952328dce6612c20953698c38609ea1ab4d9d5edb1deff2e7d8e54518",
+      "function": "smooth_with_splines",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpyhwdx7hn/task.py\", line 43, in <module>\n    main()\n  File \"/tmp/tmpyhwdx7hn/task.py\", line 41, in main\n    print(obj.smooth_with_splines(pixel_data, mask))\n          ^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'CorrectIlluminationCalculate' object has ",
+      "output_tail": "\n  File \"/tmp/tmpyhwdx7hn/task.py\", line 43, in <module>\n    main()\n  File \"/tmp/tmpyhwdx7hn/task.py\", line 41, in main\n    print(obj.smooth_with_splines(pixel_data, mask))\n          ^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'CorrectIlluminationCalculate' object has no attribute 'smooth_with_splines'\n"
+    },
+    {
+      "idx": "1471d0b9f50822cce4ed7b5014283b2426f36a51f3e0af062cc7bb6c0b17d730",
+      "function": "parse_requirements",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "{'requests': {'compare': '=', 'version': LooseVersion ('1.2.2')}}\n\n/tmp/tmpzmas5j9b/task.py:12: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.\n  version = LooseVersion(match.group(3))\n",
+      "output_tail": "{'requests': {'compare': '=', 'version': LooseVersion ('1.2.2')}}\n\n/tmp/tmpzmas5j9b/task.py:12: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.\n  version = LooseVersion(match.group(3))\n"
+    },
+    {
+      "idx": "44f2d04ddc18bf7b12254b8139bc62cdbefcf0baaaf4dd7b219f3be66a2ab178",
+      "function": "sample_id_from_read_id",
+      "status": "ok",
+      "flags": [],
+      "output_head": "sample1\n",
+      "output_tail": "sample1\n"
+    },
+    {
+      "idx": "bbb063bbe740d9b45318f92ce17bde41837bacf637691b97fd0efbc860abaa62",
+      "function": "table2coords",
+      "status": "ok",
+      "flags": [],
+      "output_head": "([np.int64(6), np.int64(25), np.int64(10), np.int64(17), np.int64(18), np.int64(28), np.int64(3), np.int64(10), np.int64(1), np.int64(12), np.int64(1), np.int64(1), np.int64(11), np.int64(27), np.int64(15), np.int64(29), np.int64(18), np.int64(29), np.int64(2), np.int64(6)], [np.int64(14), np.int64(",
+      "output_tail": "p.int64(2), np.int64(6)], [np.int64(14), np.int64(14), np.int64(6), np.int64(6), np.int64(10), np.int64(10), np.int64(2), np.int64(2), np.int64(5), np.int64(5), np.int64(11), np.int64(11), np.int64(9), np.int64(9), np.int64(14), np.int64(14), np.int64(19), np.int64(19), np.int64(18), np.int64(18)])\n"
+    },
+    {
+      "idx": "12de4cd5367ed88cfbad013fb9e06cd4f5fdc397da41ce29406f543bc8b1a563",
+      "function": "to_fasta",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpe2d3vzzz/task.py\", line 43, in <module>\n    main()\n  File \"/tmp/tmpe2d3vzzz/task.py\", line 41, in main\n    print(Sequence().to_fasta())\n          ^^^^^^^^^^^^^^^^^^^\nAttributeError: 'Sequence' object has no attribute 'to_fasta'\n",
+      "output_tail": "\nTraceback (most recent call last):\n  File \"/tmp/tmpe2d3vzzz/task.py\", line 43, in <module>\n    main()\n  File \"/tmp/tmpe2d3vzzz/task.py\", line 41, in main\n    print(Sequence().to_fasta())\n          ^^^^^^^^^^^^^^^^^^^\nAttributeError: 'Sequence' object has no attribute 'to_fasta'\n"
+    },
+    {
+      "idx": "64c9e6585a41dcb70e3c68cbc260e23211fdb1b249f12edf8ae7012a2543dbeb",
+      "function": "expand",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[1 1 1]\n [0 1 1]\n [0 0 1]]\n",
+      "output_tail": "[[1 1 1]\n [0 1 1]\n [0 0 1]]\n"
+    },
+    {
+      "idx": "f92735e756bdb440fe4eea446fb33f363a25dc287c7a6f74bc6e515773ca7e4d",
+      "function": "gen_pdb_metadata",
+      "status": "ok",
+      "flags": [],
+      "output_head": "{'method': 'PDB', 'gather_from_pdb': {'pdbids': ['1ABC'], 'uniprot_domain_regex': '.*', 'chainids': ['A']}}\n",
+      "output_tail": "{'method': 'PDB', 'gather_from_pdb': {'pdbids': ['1ABC'], 'uniprot_domain_regex': '.*', 'chainids': ['A']}}\n"
+    },
+    {
+      "idx": "6892fabd339e0f66e6a9e420697201fe8bb4a90d9d524c46ff666d1bafb697c9",
+      "function": "p_adjust_bh",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp3fr9af0n/task.py\", line 277, in <module>\n    main()\n  File \"/tmp/tmp3fr9af0n/task.py\", line 275, in main\n    print(p_adjust_bh(np.random.randint(20, size=(10))))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp3fr9af0n/task.",
+      "output_tail": "ine 253, in p_adjust_bh\n    p = np.asfarray(p)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "5cc5e3a05ec740612fae863c96e91018529102f498a51f546ae91ba190e1a5d7",
+      "function": "assemble_kmers",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[('AAGCCCANAN', 0.4219218196852704), ('AACCNNANCN', 0.41951982096165874), ('TNGACTGGCC', 0.9572130722067812), ('GAATAGGNGA', 0.7297317866938179), ('NATANGNGNC', 0.7045718362149235)]\n",
+      "output_tail": "[('AAGCCCANAN', 0.4219218196852704), ('AACCNNANCN', 0.41951982096165874), ('TNGACTGGCC', 0.9572130722067812), ('GAATAGGNGA', 0.7297317866938179), ('NATANGNGNC', 0.7045718362149235)]\n"
+    },
+    {
+      "idx": "9885f92941d22a88ab14c3766feb3b0f3e750b60290deb53ae5a0917b3081065",
+      "function": "flood",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp9rw174nu/task.py\", line 36, in <module>\n    main()\n  File \"/tmp/tmp9rw174nu/task.py\", line 34, in main\n    print(TrackObjects().flood(0, 10, a, b, c, d, z))\n          ^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'TrackObjects' object has no attribute 'floo",
+      "output_tail": "aceback (most recent call last):\n  File \"/tmp/tmp9rw174nu/task.py\", line 36, in <module>\n    main()\n  File \"/tmp/tmp9rw174nu/task.py\", line 34, in main\n    print(TrackObjects().flood(0, 10, a, b, c, d, z))\n          ^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'TrackObjects' object has no attribute 'flood'\n"
+    },
+    {
+      "idx": "ee31b9152296ca2a24126d335b4e7c2e9f4821d80650ff6b9df983517c31712f",
+      "function": "_reference_copies_pure",
+      "status": "ok",
+      "flags": [],
+      "output_head": "2\n",
+      "output_tail": "2\n"
+    },
+    {
+      "idx": "29eddda85475aef27385f6e0d4d90e86458a7441a80b5ceaf5fec7ac6659649e",
+      "function": "name_contig",
+      "status": "ok",
+      "flags": [],
+      "output_head": "taxon1@refA_i3c5s95\n",
+      "output_tail": "taxon1@refA_i3c5s95\n"
+    },
+    {
+      "idx": "a44426c9cc48a1512fd1d49d523c547734001818da17d45f96517f16b70b90b8",
+      "function": "HaarConv",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpbcmk73ih/task.py\", line 70, in <module>\n    main()\n  File \"/tmp/tmpbcmk73ih/task.py\", line 68, in main\n    print(HaarConv(signal, None, 1))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpbcmk73ih/task.py\", line 35, in HaarConv\n    result = np.",
+      "output_tail": " np.zeros(signalSize, dtype=np.float_)\n                                        ^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.float_` was removed in the NumPy 2.0 release. Use `np.float64` instead.\n"
+    },
+    {
+      "idx": "fa196753df682533ffa67de2285e2da6b7d5b4c7fc5ab7c55ccbcc7c123a42b0",
+      "function": "__search_fn",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[(81, 85)]\n",
+      "output_tail": "[(81, 85)]\n"
+    },
+    {
+      "idx": "14b2d202359f35890aacc30f6955c614a1b125282a31970d14da83d758ee7deb",
+      "function": "convolve_weighted",
+      "status": "ok",
+      "flags": [],
+      "output_head": "(array([0.17658466, 0.27846625, 0.22093664, 0.20674703, 0.39067172,\n       0.33926449, 0.33537987, 0.26449838, 0.19366184, 0.18482078]), array([0.21642543, 0.26275268, 0.32856585, 0.33508362, 0.23934676,\n       0.17176765, 0.27529082, 0.3816994 , 0.40602449, 0.30890864]))\n",
+      "output_tail": "(array([0.17658466, 0.27846625, 0.22093664, 0.20674703, 0.39067172,\n       0.33926449, 0.33537987, 0.26449838, 0.19366184, 0.18482078]), array([0.21642543, 0.26275268, 0.32856585, 0.33508362, 0.23934676,\n       0.17176765, 0.27529082, 0.3816994 , 0.40602449, 0.30890864]))\n"
+    },
+    {
+      "idx": "039e956cfdad9a360d76603f59b992f97f7f71fe68c4f031ec060956563152aa",
+      "function": "planewise_morphology_opening",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[[0 0 0 0 0 0 0 0 0 0]\n  [0 0 0 0 0 0 0 0 0 0]\n  [0 0 1 1 1 0 0 0 0 0]\n  [0 0 1 1 1 0 0 0 0 0]\n  [0 0 1 1 1 0 0 0 0 0]\n  [0 0 0 0 0 0 0 0 0 0]\n  [0 0 0 0 0 0 0 0 0 0]\n  [0 0 0 0 0 0 0 0 0 0]\n  [0 0 0 0 0 0 0 0 0 0]\n  [0 0 0 0 0 0 0 0 0 0]]\n\n [[0 0 0 0 0 0 0 0 0 0]\n  [0 0 0 0 0 0 0 0 0 0]\n  [0 0 0 0",
+      "output_tail": "0 0 0 0 0 0 0 0 0]\n  [1 1 1 0 0 0 0 0 0 0]\n  [1 1 1 0 0 0 0 0 0 0]]]\n\n/tmp/tmppvarkhbu/task.py:14: FutureWarning: `square` is deprecated since version 0.25 and will be removed in version 0.27. Use `skimage.morphology.footprint_rectangle` instead.\n  structuring_element = skimage.morphology.square(3)\n"
+    },
+    {
+      "idx": "3fad809ac3ed32a86e199bb42ab82d4357b42c1a2a935a6560843e6b415328a4",
+      "function": "mask_bad_bins",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[ True  True  True  True False  True  True False False  True]\n",
+      "output_tail": "[ True  True  True  True False  True  True False False  True]\n"
+    },
+    {
+      "idx": "847a48581357bcd7b2d7a9143dc7128516227ef6e5a9a19873a35b9018961b8e",
+      "function": "smooth_with_convex_hull",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp1n_l3sbj/task.py\", line 23, in <module>\n    main()\n  File \"/tmp/tmp1n_l3sbj/task.py\", line 21, in main\n    print(obj.smooth_with_convex_hull(pixel_data, mask))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'CorrectIlluminationCalculate' obj",
+      "output_tail": "p/tmp1n_l3sbj/task.py\", line 23, in <module>\n    main()\n  File \"/tmp/tmp1n_l3sbj/task.py\", line 21, in main\n    print(obj.smooth_with_convex_hull(pixel_data, mask))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'CorrectIlluminationCalculate' object has no attribute 'smooth_with_convex_hull'\n"
+    },
+    {
+      "idx": "9e06e61aa30d028cd88f23393caea3102fcf28463bcee92855b3764bf9811b31",
+      "function": "z_prob",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpjuho_c_0/task.py\", line 281, in <module>\n    main()\n  File \"/tmp/tmpjuho_c_0/task.py\", line 279, in main\n    print(z_prob(cnarr))\n          ^^^^^^^^^^^^^\n  File \"/tmp/tmpjuho_c_0/task.py\", line 264, in z_prob\n    return p_adjust_bh(p)\n           ^^",
+      "output_tail": "ine 252, in p_adjust_bh\n    p = np.asfarray(p)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "7c6dbfdcb0f2774d79fdacfdcbd6f76608e44ca697bb812c0b900adec54f97c5",
+      "function": "parse_theta_results",
+      "status": "nondet",
+      "flags": [],
+      "output_head": "{'NLL': 0.11869174143176753, 'mu_normal': 0.8565522928448985, 'mu_tumors': [], 'C': [[None]], 'p*': [[0.41526613668599377]]}\n",
+      "output_tail": "{'NLL': 0.11869174143176753, 'mu_normal': 0.8565522928448985, 'mu_tumors': [], 'C': [[None]], 'p*': [[0.41526613668599377]]}\n"
+    },
+    {
+      "idx": "e2ffd32ca2a38d28a787f8870b9f72fe9db58ee60a7e6b326b11e2853981b6ce",
+      "function": "mirror_clusters",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp95sks_yc/task.py\", line 137, in <module>\n    main()\n  File \"/tmp/tmp95sks_yc/task.py\", line 135, in main\n    print(mirror_clusters(data, labels))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp95sks_yc/task.py\", line 120, in mirror_cluster",
+      "output_tail": "s/_stats_py.py\", line 7179, in _power_divergence\n    raise ValueError(msg)\nValueError: For each axis slice, the sum of the observed frequencies must agree with the sum of the expected frequencies to a relative tolerance of 1.4901161193847656e-08, but the percent differences are:\n0.09066232356134633\n"
+    },
+    {
+      "idx": "4d412254a2ce13803a4863a904cd47b2752a2832da593fec570baaef31ef84b1",
+      "function": "cluster_profile",
+      "status": "ok",
+      "flags": [],
+      "output_head": "K-means clustering\n(array([1, 4, 5, 7, 8, 9, 2, 3, 6, 0]), array([2, 0, 1, 1, 0, 0, 1, 0, 0, 0], dtype=int32))\n",
+      "output_tail": "K-means clustering\n(array([1, 4, 5, 7, 8, 9, 2, 3, 6, 0]), array([2, 0, 1, 1, 0, 0, 1, 0, 0, 0], dtype=int32))\n"
+    },
+    {
+      "idx": "456c1600e814a5a9b79337d281a1b8316919e10c5a57b396cf3f3dd06186f7bb",
+      "function": "morphological_gradient",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[1 1 1]\n [1 1 1]\n [0 1 1]]\n\n/tmp/tmp34woewit/task.py:25: FutureWarning: `square` is deprecated since version 0.25 and will be removed in version 0.27. Use `skimage.morphology.footprint_rectangle` instead.\n  structuring_element = skimage.morphology.square(3)\n",
+      "output_tail": "[[1 1 1]\n [1 1 1]\n [0 1 1]]\n\n/tmp/tmp34woewit/task.py:25: FutureWarning: `square` is deprecated since version 0.25 and will be removed in version 0.27. Use `skimage.morphology.footprint_rectangle` instead.\n  structuring_element = skimage.morphology.square(3)\n"
+    },
+    {
+      "idx": "5bf803dcce56f258479122f82a4c75b95ecf124c68cdc02768117b90a746e966",
+      "function": "angle_features",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp0x7poa_l/task.py\", line 29, in <module>\n    main()\n  File \"/tmp/tmp0x7poa_l/task.py\", line 27, in main\n    print(UntangleWorms().angle_features())\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'UntangleWorms' object has no attribute 'ang",
+      "output_tail": "ost recent call last):\n  File \"/tmp/tmp0x7poa_l/task.py\", line 29, in <module>\n    main()\n  File \"/tmp/tmp0x7poa_l/task.py\", line 27, in main\n    print(UntangleWorms().angle_features())\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'UntangleWorms' object has no attribute 'angle_features'\n"
+    },
+    {
+      "idx": "b79bd373b799fa22d916ef68cfadd8dcabb9c3b0463107f11c2e7afe43aa615f",
+      "function": "encode_url_query",
+      "status": "ok",
+      "flags": [],
+      "output_head": "gene+%3DBRCA1\n",
+      "output_tail": "gene+%3DBRCA1\n"
+    },
+    {
+      "idx": "4766f9df43e8c27fc01d6ca29a476913be596bbc017aef7f751799745af7df91",
+      "function": "resize",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpmj8dtzr8/task.py\", line 27, in <module>\n    main()\n  File \"/tmp/tmpmj8dtzr8/task.py\", line 25, in main\n    print(obj.resize(pixel_data, labels))\n          ^^^^^^^^^^\nAttributeError: 'OverlayOutlines' object has no attribute 'resize'\n",
+      "output_tail": "\nTraceback (most recent call last):\n  File \"/tmp/tmpmj8dtzr8/task.py\", line 27, in <module>\n    main()\n  File \"/tmp/tmpmj8dtzr8/task.py\", line 25, in main\n    print(obj.resize(pixel_data, labels))\n          ^^^^^^^^^^\nAttributeError: 'OverlayOutlines' object has no attribute 'resize'\n"
+    },
+    {
+      "idx": "545025c0fb92de2356a571ed4afbab5223048c4dd4734219a84bbefce45b5293",
+      "function": "convert_to_objects",
+      "status": "ok",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[0 1 0 0 0 2 0 0 0 3]\n [0 0 0 0 4 0 4 4 4 0]\n [5 0 4 4 4 4 4 4 4 4]\n [0 0 4 4 4 0 4 0 0 0]\n [0 0 4 4 4 4 4 0 6 6]\n [0 7 0 4 0 4 4 0 0 0]\n [0 0 0 0 0 4 4 0 4 4]\n [4 4 0 4 0 4 4 4 0 4]\n [0 4 0 4 0 0 4 0 4 4]\n [4 4 4 4 4 4 4 4 4 0]]\n\n/usr/local/lib/python3.11/dist-packages/skimage/util/dtype.py:529: U",
+      "output_tail": "[0 0 0 0 0 4 4 0 4 4]\n [4 4 0 4 0 4 4 4 0 4]\n [0 4 0 4 0 0 4 0 4 4]\n [4 4 4 4 4 4 4 4 4 0]]\n\n/usr/local/lib/python3.11/dist-packages/skimage/util/dtype.py:529: UserWarning: Downcasting int64 to uint16 without scaling because max value 1 fits in uint16\n  return _convert(image, np.uint16, force_copy)\n"
+    },
+    {
+      "idx": "f2db9e361eb434e6d8ec073fbb48ae9463b54c4ffa3f4f582b245aff1c087b38",
+      "function": "rolling_outlier_quantile",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpkzjna3t9/task.py\", line 171, in <module>\n    main()\n  File \"/tmp/tmpkzjna3t9/task.py\", line 169, in main\n    print(rolling_outlier_quantile(x, 3, .95, 0.6))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpkzjna3t9/task.py\", line ",
+      "output_tail": "ine 42, in check_inputs\n    x = np.asfarray(x)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "25b519511e0d0909fa97c01e33ebb1c8f27ff3075163715bfd5f5db86020793c",
+      "function": "normalize_data",
+      "status": "ok",
+      "flags": [],
+      "output_head": "{'sample': array([0.46153846, 1.        , 1.        , 0.76923077, 0.53846154,\n       0.46153846, 1.        , 0.76923077, 0.76923077, 0.23076923])}\n",
+      "output_tail": "{'sample': array([0.46153846, 1.        , 1.        , 0.76923077, 0.53846154,\n       0.46153846, 1.        , 0.76923077, 0.76923077, 0.23076923])}\n"
+    },
+    {
+      "idx": "36eea1ccef5c1b38d58f99a1c0ebee8e9445ecc3d35d833ec7b825732a90d33c",
+      "function": "count_mapped_read_sam",
+      "status": "ok",
+      "flags": [],
+      "output_head": "20\n",
+      "output_tail": "20\n"
+    },
+    {
+      "idx": "8d8c151adab916bd440d932496c4e5a4d4564a910e40fdd27295d89eb474b418",
+      "function": "get_file_prefix",
+      "status": "ok",
+      "flags": [],
+      "output_head": "../OhbVrpoiVg\n",
+      "output_tail": "../OhbVrpoiVg\n"
+    },
+    {
+      "idx": "ebafd93492a3ac7020ac7e4b51706926a44946736bac948377db8977da702f96",
+      "function": "read_text_lines",
+      "status": "ok",
+      "flags": [],
+      "output_head": "['0\\n', '1\\n', '2\\n', '3\\n', '4\\n']\n",
+      "output_tail": "['0\\n', '1\\n', '2\\n', '3\\n', '4\\n']\n"
+    },
+    {
+      "idx": "bea678a85c742c482ddf0f7da136ecc7d9c782d700685c6628fdbc1e1ddd1e89",
+      "function": "biweight_midvariance",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp5hddz2mb/task.py\", line 84, in <module>\n    main()\n  File \"/tmp/tmp5hddz2mb/task.py\", line 82, in main\n    print(biweight_midvariance(a))\n          ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp5hddz2mb/task.py\", line 17, in wrapper\n    a = np.asfarray(a",
+      "output_tail": "y\", line 17, in wrapper\n    a = np.asfarray(a)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "59d676dcd71a51c58295157f164ea39339cf3c12f77afeecb7a18cb33a086213",
+      "function": "pca_sk",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[ 5.78632954e+00  8.83260993e+00 -2.14273348e+00 -1.11386120e+01\n   5.24253470e+00 -4.02061749e+00  1.40183460e+00 -1.43079052e+00\n   9.11905194e-01 -4.12488140e-17]\n [-1.41247985e+01 -8.62639883e+00  4.24716314e+00  3.16004627e+00\n   1.47751530e+00  3.84047194e-01  1.49192095e+00 -3.33912323e+00\n ",
+      "output_tail": "7.67222015e+00  6.94306481e+00\n  -2.02284926e+00 -4.45897628e+00 -4.19050628e+00 -5.29476580e-01\n  -4.11301076e-02 -4.12488140e-17]\n [-1.41494153e+01  7.96966104e+00  9.45248825e-01 -5.87974440e+00\n  -4.18984669e+00  5.54077549e+00  3.24934907e-01  2.03191059e+00\n   6.11890289e-01 -4.12488140e-17]]\n"
+    },
+    {
+      "idx": "61335b85de2ddccf4baa20e2b4c0f1db67320caa3184c8286d46ae2534955197",
+      "function": "read_samples",
+      "status": "ok",
+      "flags": [],
+      "output_head": "                  ID_1\nID_2                  \nAoCLrZaWZk  oGMbJmTPSI\nygwwMqZcUD  SBvrjnWvgf\nmTecQoXsfo  IhyfJsONxK\nQrSRPeMOkI  gyrDOxkxwn\n",
+      "output_tail": "                  ID_1\nID_2                  \nAoCLrZaWZk  oGMbJmTPSI\nygwwMqZcUD  SBvrjnWvgf\nmTecQoXsfo  IhyfJsONxK\nQrSRPeMOkI  gyrDOxkxwn\n"
+    },
+    {
+      "idx": "a7327389c3e6ffc2964fe34c334a5c8c94ea14329d21e70b4e4cf350c10e5d7c",
+      "function": "_log2_ratio_to_absolute",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[23.36565207 29.59649262  9.34626083 18.69252165 23.36565207 26.48107234\n 14.01939124 17.13481152 18.69252165 24.92336221]\n",
+      "output_tail": "[23.36565207 29.59649262  9.34626083 18.69252165 23.36565207 26.48107234\n 14.01939124 17.13481152 18.69252165 24.92336221]\n"
+    },
+    {
+      "idx": "9990a321d0ab00c0c905e927a4cf1b65fe66bfea0071e1028d22dcf746548d17",
+      "function": "markov",
+      "status": "ok",
+      "flags": [],
+      "output_head": "M_init:\n [[1.         0.16285539 0.71185842 0.62649933 0.39752229 0.31593418\n  0.82234178 0.56765156 0.63337098 0.36919255]\n [0.16285539 1.         0.         0.30364863 0.37862185 0.49931086\n  0.33292591 0.53923667 0.38905956 0.47535768]\n [0.71185842 0.         1.         0.65501694 0.43377946 0.30",
+      "output_tail": "      0.58310783 0.44245469]\n [0.63337098 0.38905956 0.35729686 0.44758972 0.30035639 0.29484701\n  0.77834718 0.58310783 1.         0.73504423]\n [0.36919255 0.47535768 0.09920121 0.24410258 0.15425605 0.19403713\n  0.52625397 0.44245469 0.73504423 1.        ]]\n[array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])]\n"
+    },
+    {
+      "idx": "ddd641fa8348825b4bb525a66d6f8bc2f6dcb7d4551a69201bdf8a43df4cf546",
+      "function": "gen_uniprot_metadata",
+      "status": "ok",
+      "flags": [],
+      "output_head": "{'method': 'UniProt', 'gather_from_uniprot': {'uniprot_query_string': 'Example Query', 'uniprot_domain_regex': 'Example Regex'}}\n",
+      "output_tail": "{'method': 'UniProt', 'gather_from_uniprot': {'uniprot_query_string': 'Example Query', 'uniprot_domain_regex': 'Example Regex'}}\n"
+    },
+    {
+      "idx": "bfca8a2355b5cec923cd3201380fce63eb25a06eda587a414f619aae0384e297",
+      "function": "_format_time_columns",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[['{\\\\color{light_gray}00:0}5:14', '{\\\\color{light_gray}00:0}3:45', '{\\\\color{light_gray}00:0}8:01'], ['{\\\\color{light_gray}00:0}7:30', '{\\\\color{light_gray}00:0}7:08', '{\\\\color{light_gray}00:0}5:42']]\n",
+      "output_tail": "[['{\\\\color{light_gray}00:0}5:14', '{\\\\color{light_gray}00:0}3:45', '{\\\\color{light_gray}00:0}8:01'], ['{\\\\color{light_gray}00:0}7:30', '{\\\\color{light_gray}00:0}7:08', '{\\\\color{light_gray}00:0}5:42']]\n"
+    },
+    {
+      "idx": "85006e53fd54989b418beeb76c15f9ed297b1afe6f0e5636056931afbbac0489",
+      "function": "shard_file_size",
+      "status": "ok",
+      "flags": [],
+      "output_head": "10\n",
+      "output_tail": "10\n"
+    },
+    {
+      "idx": "e7c4c037ced0fa64736a4719ef82e22050844191c6e9a95f5771ac09e4627a29",
+      "function": "parse_molprobity_oneline_analysis_output",
+      "status": "ok",
+      "flags": [],
+      "output_head": "{'test': {'#pdbFileName': 'test.pdb', 'x-H_type': '83', 'chains': 16, 'residues': 5, 'nucacids': 96, 'resolution': 37.0, 'rvalue': 33.0, 'rfree': 30.0, 'clashscore': 19.0, 'clashscoreB<40': 96.0, 'minresol': 15.0, 'maxresol': 88.0, 'n_samples': 96, 'pct_rank': 71, 'pct_rank40': 13, 'cbeta>0.25': 77,",
+      "output_tail": " 'numRota': 5, 'ramaOutlier': 13, 'ramaAllowed': 29, 'ramaFavored': 31, 'numRama': 66, 'numbadbonds': 79, 'numbonds': 5, 'pct_badbonds': 73.0, 'pct_resbadbonds': 27.0, 'numbadangles': 93, 'numangles': 85, 'pct_badangles': 91.0, 'pct_resbadangles': 71.0, 'MolProbityScore': 55.0, 'Mol_pct_rank': 30}}\n"
+    },
+    {
+      "idx": "7cd3173e3aa225c83ca1568ab75bc815725ea320e179168f86a35a6b31759b67",
+      "function": "_is_sanitized",
+      "status": "ok",
+      "flags": [],
+      "output_head": "False\n",
+      "output_tail": "False\n"
+    },
+    {
+      "idx": "5c3add152792c9b4e72fc1f208480dcc4e8dfb6d4ebb71a694a852a0193054ce",
+      "function": "detect_bedcov_columns",
+      "status": "ok",
+      "flags": [],
+      "output_head": "['chromosome', 'start', 'end', 'gene', 'basecount']\n",
+      "output_tail": "['chromosome', 'start', 'end', 'gene', 'basecount']\n"
+    },
+    {
+      "idx": "8246ab2b670d1e53816b3202c1df2b401c9ff3efb4f348137c16c722fa128332",
+      "function": "find_adjacent_one",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmph9kdz_5c/task.py\", line 47, in <module>\n    main()\n  File \"/tmp/tmph9kdz_5c/task.py\", line 45, in main\n    print(IdentifyDeadWorms.find_adjacent_one(img1, numbering1, img2, numbering2, 0, 0))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeE",
+      "output_tail": " 47, in <module>\n    main()\n  File \"/tmp/tmph9kdz_5c/task.py\", line 45, in main\n    print(IdentifyDeadWorms.find_adjacent_one(img1, numbering1, img2, numbering2, 0, 0))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: type object 'IdentifyDeadWorms' has no attribute 'find_adjacent_one'\n"
+    },
+    {
+      "idx": "622285fc873ad201cae4e92d1871d67d0ee503de27a22439cc385386fa0a45fd",
+      "function": "shorten_labels",
+      "status": "ok",
+      "flags": [],
+      "output_head": "Gene_0\nGene_1\nGene_2\nGene_3\nGene_4\nGene_5\nGene_6\nGene_7\nGene_8\nGene_9\n",
+      "output_tail": "Gene_0\nGene_1\nGene_2\nGene_3\nGene_4\nGene_5\nGene_6\nGene_7\nGene_8\nGene_9\n"
+    },
+    {
+      "idx": "80ab1f2cf5d6ae04bf3709640161b97e69d7c0673e1ff8ee46b55254957f4339",
+      "function": "fill_holes",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[False  True False False False  True  True  True  True  True]\n [False False False False  True  True  True  True  True  True]\n [ True False  True  True  True  True  True  True  True  True]\n [False False  True  True  True  True  True False False False]\n [False False  True  True  True  True  True Fals",
+      "output_tail": "meter only removed smaller ones.\n  return skimage.morphology.remove_small_holes(image, size)\n/usr/local/lib/python3.11/dist-packages/skimage/_shared/utils.py:386: UserWarning: Any labeled images will be returned as a boolean array. Did you mean to use a boolean array?\n  return func(*args, **kwargs)\n"
+    },
+    {
+      "idx": "1e9143aa90c510cc8fd9edf8262b7543d0dc8f07ed24b44bf803f8d522f32016",
+      "function": "reduce_noise",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp1zf0g32h/task.py\", line 17, in <module>\n    main()\n  File \"/tmp/tmp1zf0g32h/task.py\", line 15, in main\n    print(reduce_noise(image, 3, 3, 0.8, 0.5))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp1zf0g32h/task.py\", line 8, in reduce",
+      "output_tail": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/skimage/_shared/utils.py\", line 587, in fixed_func\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\nTypeError: denoise_nl_means() got an unexpected keyword argument 'multichannel'\n"
+    },
+    {
+      "idx": "be3f35b804ede466dd69a8b5a4d55afd4e123e6d810f076cfee8a235fe9eb82a",
+      "function": "is_fastq_file",
+      "status": "ok",
+      "flags": [],
+      "output_head": "True\n",
+      "output_tail": "True\n"
+    },
+    {
+      "idx": "0648d9aaa7ce86676c8e5f7a0bc9f2c5c802da2e4818d0c5f5939073bafa87c6",
+      "function": "create_clusters",
+      "status": "error",
+      "flags": [],
+      "output_head": "Clustering 9 samples...\nClustering 9 samples by k-means, where k = 2\n\nTraceback (most recent call last):\n  File \"/tmp/tmp1fpwvvf7/task.py\", line 345, in <module>\n    main()\n  File \"/tmp/tmp1fpwvvf7/task.py\", line 343, in main\n    print(create_clusters(logr_matrix, min_cluster_size, sample_ids))\n    ",
+      "output_tail": "y\", line 32, in wrapper\n    a = np.asfarray(a)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "815827b0294cbb80245d18e57f353e5d1ef73328b0b3a5e3ef797acb4670f04a",
+      "function": "edge_losses",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[0.62545988 0.26296017 0.34153288 0.41760036 0.84398136 0.84400548\n 0.94191639 0.2886249  0.41589379 0.35307115]\n",
+      "output_tail": "[0.62545988 0.26296017 0.34153288 0.41760036 0.84398136 0.84400548\n 0.94191639 0.2886249  0.41589379 0.35307115]\n"
+    },
+    {
+      "idx": "e6d81df998e95c55412902881ad0146564cb807248392cf47c03a7f2e8d1ee21",
+      "function": "help_settings",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpkfyg1c2h/task.py\", line 33, in <module>\n    main()\n  File \"/tmp/tmpkfyg1c2h/task.py\", line 31, in main\n    print(FilterObjects().help_settings())\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'FilterObjects' object has no attribute 'help_",
+      "output_tail": " (most recent call last):\n  File \"/tmp/tmpkfyg1c2h/task.py\", line 33, in <module>\n    main()\n  File \"/tmp/tmpkfyg1c2h/task.py\", line 31, in main\n    print(FilterObjects().help_settings())\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'FilterObjects' object has no attribute 'help_settings'\n"
+    },
+    {
+      "idx": "544fef47c689a31f2d3e14716f8145554c285aa0a3eeb8b4b455c6d364abf686",
+      "function": "planewise_morphology_closing",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[[1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]]\n\n [[1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1",
+      "output_tail": "1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]\n  [1 1 1 1 1 1 1 1 1 1]]]\n\n/tmp/tmptcdu28tf/task.py:44: FutureWarning: `square` is deprecated since version 0.25 and will be removed in version 0.27. Use `skimage.morphology.footprint_rectangle` instead.\n  structuring_element = skimage.morphology.square(3)\n"
+    },
+    {
+      "idx": "40d0b56ce12d58ab2f3c0568720f5876cd3d51d0315fa5f68cf24ea004b7dc20",
+      "function": "fbase",
+      "status": "ok",
+      "flags": [],
+      "output_head": "filename\n",
+      "output_tail": "filename\n"
+    },
+    {
+      "idx": "8ab53a74590ae941536f9fc1b64f7dc960e76e18fec73bb3a8d84dc44e748c82",
+      "function": "wrap_tex",
+      "status": "ok",
+      "flags": [],
+      "output_head": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do\neiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad\nminim veniam, quis nostrud exercitation ullamco laboris nisi ut\naliquip ex ea commodo consequat. Duis aute irure dolor in\nreprehenderit in voluptate velit esse cillu",
+      "output_tail": "m, quis nostrud exercitation ullamco laboris nisi ut\naliquip ex ea commodo consequat. Duis aute irure dolor in\nreprehenderit in voluptate velit esse cillum dolore eu fugiat nulla\npariatur. Excepteur sint occaecat cupidatat non proident, sunt in\nculpa qui officia deserunt mollit anim id est laborum.\n"
+    },
+    {
+      "idx": "f9937787d6bbdc5bf4f028293cf66e9c3120e8e56cae35166dbc59222ab424fa",
+      "function": "compute_samples",
+      "status": "error",
+      "flags": [],
+      "output_head": "IndentationError: expected an indented block after class definition on line 2 (<string>, line 4)",
+      "output_tail": "IndentationError: expected an indented block after class definition on line 2 (<string>, line 4)"
+    },
+    {
+      "idx": "858d0657b552d38724f55313e2205db6045273c094f700cf0c141cc25ae7e2ce",
+      "function": "select_templates_by_validation_score",
+      "status": "ok",
+      "flags": [],
+      "output_head": "['template_id' 'template_id' 'template_id' 'template_id' 'template_id']\n",
+      "output_tail": "['template_id' 'template_id' 'template_id' 'template_id' 'template_id']\n"
+    },
+    {
+      "idx": "cd70977b532cc1b904ca05c866af980769beb4c93fa4cc20af6fefeb9e98055f",
+      "function": "get_categories",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpt2ztuj6v/task.py\", line 30, in <module>\n    main()\n  File \"/tmp/tmpt2ztuj6v/task.py\", line 28, in main\n    print(obj.get_categories(None, \"Image\"))\n          ^^^^^^^^^^^^^^^^^^\nAttributeError: 'MeasureColocalization' object has no attribute 'get_ca",
+      "output_tail": " (most recent call last):\n  File \"/tmp/tmpt2ztuj6v/task.py\", line 30, in <module>\n    main()\n  File \"/tmp/tmpt2ztuj6v/task.py\", line 28, in main\n    print(obj.get_categories(None, \"Image\"))\n          ^^^^^^^^^^^^^^^^^^\nAttributeError: 'MeasureColocalization' object has no attribute 'get_categories'\n"
+    },
+    {
+      "idx": "f36849b2b04ab15f1c17929b5c5819d357e353517fc4e557f65b89ef6caa0e82",
+      "function": "_reference_expect_copies",
+      "status": "ok",
+      "flags": [],
+      "output_head": "(4, 2)\n",
+      "output_tail": "(4, 2)\n"
+    },
+    {
+      "idx": "1d9d5184e1224fbb45bbd73e409ef25ba0d8bb2342ecafadc160f6c761b3618f",
+      "function": "FindLocalPeaks",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[1 7]\n",
+      "output_tail": "[1 7]\n"
+    },
+    {
+      "idx": "392148e319d850d8222bc79fd34a5a3403d6e753fb2e3a6670b86f45b5ffb7fe",
+      "function": "inflate",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[-0.00000000e+00  2.17743434e+00  0.00000000e+00 -0.00000000e+00\n  -9.98887580e-01  0.00000000e+00 -0.00000000e+00 -0.00000000e+00\n  -0.00000000e+00 -3.24286461e-01]\n [-1.03049467e+00  0.00000000e+00  7.52590929e-19  7.31857240e-01\n   1.02955935e+00  1.56154212e-19 -0.00000000e+00  1.31969615e+00\n ",
+      "output_tail": "0.00000000e+00 -0.00000000e+00\n  -9.98887580e-01  0.00000000e+00 -0.00000000e+00 -0.00000000e+00\n  -0.00000000e+00  7.20136246e-01]\n [-0.00000000e+00  0.00000000e+00  0.00000000e+00 -0.00000000e+00\n  -9.98887580e-01 -8.56507685e-01 -8.23113625e-18 -0.00000000e+00\n  -4.11488505e+00  0.00000000e+00]]\n"
+    },
+    {
+      "idx": "cfdf088aba930cd2b32c2603853113bda926addfc197037f1f1b45ad72f69abe",
+      "function": "summarize_info",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp5q86drl8/task.py\", line 281, in <module>\n    main()\n  File \"/tmp/tmp5q86drl8/task.py\", line 279, in main\n    print(summarize_info(all_logr, all_depths))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp5q86drl8/task.py\", line 264, in ",
+      "output_tail": "y\", line 32, in wrapper\n    a = np.asfarray(a)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "55bd4c21d183fd77299f740987a60dd2e18a60fb5293d66b2ff48c61711bff9f",
+      "function": "biweight_location",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpdhz4ygta/task.py\", line 54, in <module>\n    main()\n  File \"/tmp/tmpdhz4ygta/task.py\", line 52, in main\n    print(biweight_location(a))\n          ^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmpdhz4ygta/task.py\", line 10, in wrapper\n    a = np.asfarray(a)\n    ",
+      "output_tail": "y\", line 10, in wrapper\n    a = np.asfarray(a)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "49223a14bd5f2ff8b9231c7c744b70e70c7c4be3e6b807943ecc1bf42444bf1c",
+      "function": "hard_calls_from_probs",
+      "status": "ok",
+      "flags": [],
+      "output_head": "['A G' 'A A' 'A G']\n",
+      "output_tail": "['A G' 'A A' 'A G']\n"
+    },
+    {
+      "idx": "3f41edc8e59211b480a1d936f15460cb08e52fe49cb0e1f6c789c79ed5b9ca71",
+      "function": "_neighbors",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[0 0 0 0 0 2 0 0 0 1]\n [0 0 0 0 3 0 5 5 5 0]\n [0 0 3 5 5 5 4 5 3 1]\n [0 0 5 8 7 0 5 0 0 0]\n [0 0 5 6 6 6 4 0 1 1]\n [0 1 0 3 0 6 5 0 0 0]\n [0 0 0 0 0 5 6 0 3 2]\n [2 2 0 1 0 3 5 5 0 3]\n [0 5 0 3 0 0 5 0 4 2]\n [2 3 3 3 3 3 3 3 3 0]]\n",
+      "output_tail": "[[0 0 0 0 0 2 0 0 0 1]\n [0 0 0 0 3 0 5 5 5 0]\n [0 0 3 5 5 5 4 5 3 1]\n [0 0 5 8 7 0 5 0 0 0]\n [0 0 5 6 6 6 4 0 1 1]\n [0 1 0 3 0 6 5 0 0 0]\n [0 0 0 0 0 5 6 0 3 2]\n [2 2 0 1 0 3 5 5 0 3]\n [0 5 0 3 0 0 5 0 4 2]\n [2 3 3 3 3 3 3 3 3 0]]\n"
+    },
+    {
+      "idx": "63cc22d6dd53c76ee8f84d6139aaa02360ce478c36b7ff29044792a97c81a302",
+      "function": "threshold_scale",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmp1tr6c_n6/task.py\", line 39, in <module>\n    main()\n  File \"/tmp/tmp1tr6c_n6/task.py\", line 37, in main\n    print(ImageQualitySettingsGroup().threshold_scale)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'ImageQualitySetting",
+      "output_tail": "mp1tr6c_n6/task.py\", line 39, in <module>\n    main()\n  File \"/tmp/tmp1tr6c_n6/task.py\", line 37, in main\n    print(ImageQualitySettingsGroup().threshold_scale)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'ImageQualitySettingsGroup' object has no attribute 'threshold_scale'\n"
+    },
+    {
+      "idx": "fc86965a524aa6258f147e5273535beceaee87b848bfa1884dd472ab43a3b073",
+      "function": "fill_object_holes",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[1 1 1]\n [1 1 1]\n [1 1 1]]\n\n/tmp/tmprft5un6f/task.py:26: FutureWarning: Parameter `area_threshold` is deprecated since version 0.26.0 and will be removed in 2.0.0 (or later). To avoid this warning, please use the parameter `max_size` instead. For more details, see the documentation of `remove_small",
+      "output_tail": "e parameter `max_size` instead. For more details, see the documentation of `remove_small_holes`. Note that the new threshold removes objects smaller than **or equal to** its value, while the previous parameter only removed smaller ones.\n  filled_mask = skimage.morphology.remove_small_holes(array ==\n"
+    },
+    {
+      "idx": "04caeedbef1e4222af57e2405ddd0348434bd0a98db7562fb643b69bc00a04f6",
+      "function": "process_groups",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[84, 17, 6, 97, 38, 34]]\n",
+      "output_tail": "[[84, 17, 6, 97, 38, 34]]\n"
+    },
+    {
+      "idx": "c579ca270fc7f38a8244cb3ebec2665ac2fc4bc753cd3a2798f43842aefb50ee",
+      "function": "segment_objects",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[0 1 2]\n [2 2 1]\n [0 2 2]]\n",
+      "output_tail": "[[0 1 2]\n [2 2 1]\n [0 2 2]]\n"
+    },
+    {
+      "idx": "05cd2670eb0a08376ec9dc37671440847b5c3c12e418d375f73f20cc0cf09df5",
+      "function": "calc_init_params",
+      "status": "ok",
+      "flags": [],
+      "output_head": "(np.float64(0.1915194503788923), np.float64(0.9581393536837052), np.float64(0.5043989592890579), -1)\n",
+      "output_tail": "(np.float64(0.1915194503788923), np.float64(0.9581393536837052), np.float64(0.5043989592890579), -1)\n"
+    },
+    {
+      "idx": "39db99155cd82bbf3cbdc1e630546d171a1a536567ae90d693790bae0bc442a3",
+      "function": "calculate_seq_identity",
+      "status": "ok",
+      "flags": [],
+      "output_head": "37.5\n",
+      "output_tail": "37.5\n"
+    },
+    {
+      "idx": "e4818e614e16fce4b7765ec0b91a7908e2151e3f2c40d8343a2a4574b276bc2a",
+      "function": "in_bounds",
+      "status": "error",
+      "flags": [],
+      "output_head": "IndentationError: expected an indented block after class definition on line 3 (<string>, line 5)",
+      "output_tail": "IndentationError: expected an indented block after class definition on line 3 (<string>, line 5)"
+    },
+    {
+      "idx": "d71602be1a2d46731d2f8a5baf61e35019ec625273ba38f09c956adf56e17a68",
+      "function": "Hmap_omm2gmx",
+      "status": "ok",
+      "flags": [],
+      "output_head": "HA1\n",
+      "output_tail": "HA1\n"
+    },
+    {
+      "idx": "ca810faf6b9f51a40c7809c2b80b4fb3c77acee85f2c6ada98c2823fa62f6785",
+      "function": "parse_si_bp",
+      "status": "ok",
+      "flags": [],
+      "output_head": "2000000000000000000000000000\n",
+      "output_tail": "2000000000000000000000000000\n"
+    },
+    {
+      "idx": "569be81489d2eb6f4170b5ca575e6a9c7ed68034197c9d9e4a7499ccf36b13a7",
+      "function": "resize",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[51 74]\n [71 23]]\n",
+      "output_tail": "[[51 74]\n [71 23]]\n"
+    },
+    {
+      "idx": "b508f3d59eea30c68b124048bafa6ad19bfa82d11ddcdd8605a83155dfd59afe",
+      "function": "dilation",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1]]\n\n/tmp/tmpj9e7xnyq/task.py:23: FutureWarning: `square` is deprecated s",
+      "output_tail": "[1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1]\n [1 1 1 1 1 1 1 1 1 1]]\n\n/tmp/tmpj9e7xnyq/task.py:23: FutureWarning: `square` is deprecated since version 0.25 and will be removed in version 0.27. Use `skimage.morphology.footprint_rectangle` instead.\n  structuring_element = skimage.morphology.square(3)\n"
+    },
+    {
+      "idx": "cd2ac87bdf2038873352d49f59a4b1c1cb0ace7197cb56392b22e790c0f2d18a",
+      "function": "format_tex",
+      "status": "ok",
+      "flags": [],
+      "output_head": "\\texttt{Hello, World!}\n",
+      "output_tail": "\\texttt{Hello, World!}\n"
+    },
+    {
+      "idx": "61f0be1756473bee3284091de2ebd7cc4020f10284f5cca79bad23f92091c944",
+      "function": "AdjustBreaks",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[17 12  5 13 18 13 14  5 17  7]\n",
+      "output_tail": "[17 12  5 13 18 13 14  5 17  7]\n"
+    },
+    {
+      "idx": "b6d377e4e6a1cdc46b3503868f846f4b7d026937186cb3cb0e659280b5ec2f52",
+      "function": "calculate_ec50",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[ 1.18013549e-02  9.49898987e-01  1.13494983e+00  1.64217879e-02]\n [-7.29193017e+00  5.59580480e-01  4.81711073e-02 -1.74605354e+01]\n [ 7.75198561e-03  4.86733754e+00  1.15939014e-04  2.77258510e-01]\n [ 4.91900793e-01  7.19835022e-01  3.72439136e-01  7.83891440e+00]\n [ 3.23408276e-01  5.65388971e-0",
+      "output_tail": "6e-02  1.31059818e+01]]\n\n/tmp/tmpf7hfygyw/task.py:44: RuntimeWarning: invalid value encountered in power\n  return p_min + (p_max - p_min) / (1 + (x / ec50) ** hill)\n/tmp/tmpf7hfygyw/task.py:44: RuntimeWarning: overflow encountered in power\n  return p_min + (p_max - p_min) / (1 + (x / ec50) ** hill)\n"
+    },
+    {
+      "idx": "a8584cbf8afc13629148b3d39cc11a7a5cadbce424795f08a0d44325555cd80f",
+      "function": "touchup_blast_db_names",
+      "status": "ok",
+      "flags": [],
+      "output_head": "['sample1', 'sample2', 'sample3']\n",
+      "output_tail": "['sample1', 'sample2', 'sample3']\n"
+    },
+    {
+      "idx": "11a89feae047f66bb11bc225b323c4b028098fbc20327317bee4c968562d4759",
+      "function": "SegmentByPeaks",
+      "status": "error",
+      "flags": [],
+      "output_head": "\n/usr/local/lib/python3.11/dist-packages/numpy/_core/fromnumeric.py:3860: RuntimeWarning: Mean of empty slice.\n  return _methods._mean(a, axis=axis, dtype=dtype,\n/usr/local/lib/python3.11/dist-packages/numpy/_core/_methods.py:145: RuntimeWarning: invalid value encountered in scalar divide\n  ret = re",
+      "output_tail": " File \"/tmp/tmp737votyz/task.py\", line 41, in main\n    print(SegmentByPeaks(data, peaks))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmp737votyz/task.py\", line 33, in SegmentByPeaks\n    segs[seg_start:seg_end] = val\n    ~~~~^^^^^^^^^^^^^^^^^^^\nValueError: cannot convert float NaN to integer\n"
+    },
+    {
+      "idx": "057e7865472e76f2b22185a5bd9829595cf12ccf850089de10db14079dd3e9c3",
+      "function": "modal_location",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmplksngdqp/task.py\", line 74, in <module>\n    main()\n  File \"/tmp/tmplksngdqp/task.py\", line 72, in main\n    print(modal_location(a))\n          ^^^^^^^^^^^^^^^^^\n  File \"/tmp/tmplksngdqp/task.py\", line 16, in wrapper\n    a = np.asfarray(a)\n        ^^",
+      "output_tail": "y\", line 16, in wrapper\n    a = np.asfarray(a)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "626b17b281e7cb9554132912ce5edb0356e909d678f3df3674ee25c048364ca6",
+      "function": "fast_selection",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpphrz3csv/task.py\", line 112, in <module>\n    main()\n  File \"/tmp/tmpphrz3csv/task.py\", line 110, in main\n    print(UntangleWorms().fast_selection(costs, path_segment_matrix, segment_lengths, overlap_weight, leftover_weight, max_num_worms))\n        ",
+      "output_tail": "File \"/tmp/tmpphrz3csv/task.py\", line 110, in main\n    print(UntangleWorms().fast_selection(costs, path_segment_matrix, segment_lengths, overlap_weight, leftover_weight, max_num_worms))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'UntangleWorms' object has no attribute 'fast_selection'\n"
+    },
+    {
+      "idx": "c5521d6c56f0d2622e87262bd1598fa930208dba9c4ebd2afb4a130e46b838c5",
+      "function": "read_sites_to_extract",
+      "status": "ok",
+      "flags": [],
+      "output_head": "['AoCLrZaWZk', 'OhbVrpoiVg', 'RVIfLBcbfn', 'SBvrjnWvgf', 'oGMbJmTPSI']\n",
+      "output_tail": "['AoCLrZaWZk', 'OhbVrpoiVg', 'RVIfLBcbfn', 'SBvrjnWvgf', 'oGMbJmTPSI']\n"
+    },
+    {
+      "idx": "0c940d9077d19afb4f6b33db8a14e4f6f20716d4bec0f30851d92660b6c6c428",
+      "function": "format_plate_data_as_array",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[ 1. nan nan nan nan nan nan nan nan nan nan nan]\n [nan nan nan nan nan nan nan nan nan nan nan nan]\n [nan nan nan nan nan nan nan nan nan nan nan nan]\n [nan nan nan nan nan nan nan nan nan nan nan nan]\n [nan nan nan nan nan nan nan nan nan nan nan nan]\n [nan nan nan nan nan nan nan nan nan nan nan",
+      "output_tail": "an nan nan nan nan nan nan nan nan nan nan]\n [nan nan nan nan nan nan nan nan nan nan nan nan]\n [nan nan nan nan nan nan nan nan nan nan nan nan]\n [nan nan nan nan nan nan nan nan nan nan nan nan]\n [nan nan nan nan nan nan nan nan nan nan nan nan]\n [nan nan nan nan nan nan nan nan nan nan nan nan]]\n"
+    },
+    {
+      "idx": "68067a52d2990ea0f8918d4c76c86bc20782152287bc25af65629782338d6a48",
+      "function": "Hmap_gmx2omm",
+      "status": "ok",
+      "flags": [],
+      "output_head": "HA2\n",
+      "output_tail": "HA2\n"
+    },
+    {
+      "idx": "d117b2c6c5fac9b4411bf4ea0ecfd1dee4e08c6d137e61a847035585bfc782c1",
+      "function": "get_feature_name_matrix",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpzm67s43m/task.py\", line 27, in <module>\n    main()\n  File \"/tmp/tmpzm67s43m/task.py\", line 25, in main\n    print(ClassifyObjects().get_feature_name_matrix())\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'ClassifyObjects' obje",
+      "output_tail": "mp/tmpzm67s43m/task.py\", line 27, in <module>\n    main()\n  File \"/tmp/tmpzm67s43m/task.py\", line 25, in main\n    print(ClassifyObjects().get_feature_name_matrix())\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'ClassifyObjects' object has no attribute 'get_feature_name_matrix'\n"
+    },
+    {
+      "idx": "33906089e36b12b4da64eaa2cb0a1cd6cfc15facb12f0b20625d93a858ee10a9",
+      "function": "get_measurements",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpu20wu97u/task.py\", line 22, in <module>\n    main()\n  File \"/tmp/tmpu20wu97u/task.py\", line 20, in main\n    print(obj.get_measurements(None, IMAGE if True else 'bet', C_METADATA if True else 'bet'))\n          ^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'La",
+      "output_tail": "0wu97u/task.py\", line 22, in <module>\n    main()\n  File \"/tmp/tmpu20wu97u/task.py\", line 20, in main\n    print(obj.get_measurements(None, IMAGE if True else 'bet', C_METADATA if True else 'bet'))\n          ^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'LabelImages' object has no attribute 'get_measurements'\n"
+    },
+    {
+      "idx": "876aa4504b02378954522ccb02f653171f2c6410d80e44782d622dc99b84e62d",
+      "function": "loc_shrink_mean_std",
+      "status": "ok",
+      "flags": [],
+      "output_head": "(array([0, 1]), array([[0.5       , 0.5       ],\n       [0.33333333, 0.5       ]]), array([[0.5       , 0.5       ],\n       [0.47140452, 0.5       ]]))\n",
+      "output_tail": "(array([0, 1]), array([[0.5       , 0.5       ],\n       [0.33333333, 0.5       ]]), array([[0.5       , 0.5       ],\n       [0.47140452, 0.5       ]]))\n"
+    },
+    {
+      "idx": "3a3e9c7c0bed1fd1492d77d417695b4ed0ce674c0d04570df24f58c9f3969106",
+      "function": "parse_uniprot_pdbref_chains",
+      "status": "ok",
+      "flags": [],
+      "output_head": "{'A': [84, 114]}\n",
+      "output_tail": "{'A': [84, 114]}\n"
+    },
+    {
+      "idx": "72bd8de8a8736f656402b97add3fe43b1ab178095b1a62b06b2d1a2975776cae",
+      "function": "count",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpspvuiby4/task.py\", line 61, in <module>\n    main()\n  File \"/tmp/tmpspvuiby4/task.py\", line 59, in main\n    print(BamTrack(track).count())\n          ^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'BamTrack' object has no attribute 'count'\n",
+      "output_tail": "\nTraceback (most recent call last):\n  File \"/tmp/tmpspvuiby4/task.py\", line 61, in <module>\n    main()\n  File \"/tmp/tmpspvuiby4/task.py\", line 59, in main\n    print(BamTrack(track).count())\n          ^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'BamTrack' object has no attribute 'count'\n"
+    },
+    {
+      "idx": "67284eeea30d2592a9dde79787f50cd14bd5459b3d5affcec5bb7cc71941689f",
+      "function": "get_absolute_scale",
+      "status": "ok",
+      "flags": [],
+      "output_head": "1.5\n",
+      "output_tail": "1.5\n"
+    },
+    {
+      "idx": "9b72aabc08d48a51fd3d4a522efdd2dc01c540c1c2300342a45fb1ec936a367f",
+      "function": "fillobjects",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[1 1 1 ... 1 1 1]\n [1 1 1 ... 1 1 1]\n [1 1 1 ... 1 1 1]\n ...\n [1 1 1 ... 1 1 1]\n [1 1 1 ... 1 1 1]\n [1 1 1 ... 1 1 1]]\n\n/tmp/tmpj8uzwz2u/task.py:29: FutureWarning: Parameter `area_threshold` is deprecated since version 0.26.0 and will be removed in 2.0.0 (or later). To avoid this warning, please us",
+      "output_tail": "ze` instead. For more details, see the documentation of `remove_small_holes`. Note that the new threshold removes objects smaller than **or equal to** its value, while the previous parameter only removed smaller ones.\n  filled_mask = skimage.morphology.remove_small_holes(array == obj, min_obj_size)\n"
+    },
+    {
+      "idx": "16102d49268083cd16216166b087157c362e5313fc70c3c57576708d407c219f",
+      "function": "get_water_models_info",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[1, 'Some line'], [2, 'Some line'], [3, 'Some line'], [4, 'Some line'], [5, 'Some line']]\n",
+      "output_tail": "[[1, 'Some line'], [2, 'Some line'], [3, 'Some line'], [4, 'Some line'], [5, 'Some line']]\n"
+    },
+    {
+      "idx": "732ff176fd8f38beece1e9f98218e10fc599aed70c6d93d11fb247f40eb5fc4c",
+      "function": "file_sorter",
+      "status": "ok",
+      "flags": [],
+      "output_head": "(4, 3, 4509)\n",
+      "output_tail": "(4, 3, 4509)\n"
+    },
+    {
+      "idx": "1817057edbf0458b517eeedc61a9ad380dc84baec6e47c5a98168a2d2f881382",
+      "function": "_check_shapeit_failed_rc",
+      "status": "ok",
+      "flags": [],
+      "output_head": "False\n",
+      "output_tail": "False\n"
+    },
+    {
+      "idx": "46653d0f385a30970c556ea752a7e1089bde239c5b81dfbc3d4eaf2ecb8da440",
+      "function": "find_loopmodel_executable",
+      "status": "ok",
+      "flags": [],
+      "output_head": "loopmodel.exe\n",
+      "output_tail": "loopmodel.exe\n"
+    },
+    {
+      "idx": "0970ab694ed900cb601d9d6cdea565b9244bc252f11aadf6309f74ff9799f5f3",
+      "function": "kmeans",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[ 6 19 14 10  7  6 18 10 10  3]\n [ 7  2  1 11  5  1  0 11 11 16]\n [ 9 15 14 14 18 11 19  2  4 18]\n [ 6  8  6 17  3 13 17  8  1 19]\n [14  6 11  7 14  2 13 16  3 17]\n [ 7  3  1  5  9  3 17 11  1  9]\n [ 3 13 15 14  7 13  7 15 12 17]\n [14 12  8 14 12  0  6  8  0 11]\n [ 7 10 18 16  7  2  2  0  4  9]\n [ ",
+      "output_tail": "]\n [ 7  2  1 11  5  1  0 11 11 16]\n [ 9 15 14 14 18 11 19  2  4 18]\n [ 6  8  6 17  3 13 17  8  1 19]\n [14  6 11  7 14  2 13 16  3 17]\n [ 7  3  1  5  9  3 17 11  1  9]\n [ 3 13 15 14  7 13  7 15 12 17]\n [14 12  8 14 12  0  6  8  0 11]\n [ 7 10 18 16  7  2  2  0  4  9]\n [ 6  8  6  8  7 11  1  0 15  4]]\n"
+    },
+    {
+      "idx": "8aab501d338839e351272c2d2c74071566262a6ad5ab3e67004b5669bc518a17",
+      "function": "get_samples",
+      "status": "ok",
+      "flags": [],
+      "output_head": "   84  17\n0  38  34\n1  31  20\n2  97  16\n3  89  97\n4  72  14\n",
+      "output_tail": "   84  17\n0  38  34\n1  31  20\n2  97  16\n3  89  97\n4  72  14\n"
+    },
+    {
+      "idx": "20ed0f95a442b6bd00f1819a262d6f3be537bf788f456ec325b72d4c63771988",
+      "function": "rescale_baf",
+      "status": "ok",
+      "flags": [],
+      "output_head": "0.37500000000000006\n",
+      "output_tail": "0.37500000000000006\n"
+    },
+    {
+      "idx": "170b6c485c7fb8615b77e7b45b05663f2dab22033dd13dce4855008d60242b34",
+      "function": "fasta_file_has_protein",
+      "status": "ok",
+      "flags": [],
+      "output_head": "True\n",
+      "output_tail": "True\n"
+    },
+    {
+      "idx": "610b6e288795969dee4f5c086177f2088f801f0673326fce19a55dbe88503f03",
+      "function": "copy_labels",
+      "status": "ok",
+      "flags": [],
+      "output_head": "[[0 1 1 0 0 1 1 0 1 0]\n [0 0 0 1 0 0 1 0 0 0]\n [0 0 0 0 0 0 0 0 1 0]\n [1 0 0 0 1 0 0 0 0 1]\n [0 0 0 1 0 0 0 0 1 0]\n [0 0 0 0 0 0 1 0 0 0]\n [0 0 0 1 0 0 0 1 0 0]\n [1 1 0 0 0 0 0 0 1 0]\n [1 1 0 0 0 0 0 1 1 0]\n [0 1 1 0 0 0 0 0 0 1]]\n",
+      "output_tail": "[[0 1 1 0 0 1 1 0 1 0]\n [0 0 0 1 0 0 1 0 0 0]\n [0 0 0 0 0 0 0 0 1 0]\n [1 0 0 0 1 0 0 0 0 1]\n [0 0 0 1 0 0 0 0 1 0]\n [0 0 0 0 0 0 1 0 0 0]\n [0 0 0 1 0 0 0 1 0 0]\n [1 1 0 0 0 0 0 0 1 0]\n [1 1 0 0 0 0 0 1 1 0]\n [0 1 1 0 0 0 0 0 0 1]]\n"
+    },
+    {
+      "idx": "960f1e9c40f53a3386508556f02f4c25154d1fbd5e33c3a3a618f27f8b5aa5a7",
+      "function": "upgrade_settings",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmphsnb0zf1/task.py\", line 39, in <module>\n    main()\n  File \"/tmp/tmphsnb0zf1/task.py\", line 37, in main\n    print(SplitOrMergeObjects().upgrade_settings(setting_values, variable_revision_number, None))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+      "output_tail": "<module>\n    main()\n  File \"/tmp/tmphsnb0zf1/task.py\", line 37, in main\n    print(SplitOrMergeObjects().upgrade_settings(setting_values, variable_revision_number, None))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'SplitOrMergeObjects' object has no attribute 'upgrade_settings'\n"
+    },
+    {
+      "idx": "5fa6f4662d6adf7b3300b619dbc07f70e247bb3293330a9a24a8ffbce89da3d2",
+      "function": "outlier_iqr",
+      "status": "error",
+      "flags": [],
+      "output_head": "\nTraceback (most recent call last):\n  File \"/tmp/tmpflube1ur/task.py\", line 107, in <module>\n    main()\n  File \"/tmp/tmpflube1ur/task.py\", line 105, in main\n    print(outlier_iqr(x))\n          ^^^^^^^^^^^^^^\n  File \"/tmp/tmpflube1ur/task.py\", line 99, in outlier_iqr\n    iqr = interquartile_range(a)\n",
+      "output_tail": "y\", line 75, in wrapper\n    a = np.asfarray(a)\n        ^^^^^^^^^^^\n  File \"/usr/local/lib/python3.11/dist-packages/numpy/__init__.py\", line 400, in __getattr__\n    raise AttributeError(\nAttributeError: `np.asfarray` was removed in the NumPy 2.0 release. Use `np.asarray` with a proper dtype instead.\n"
+    },
+    {
+      "idx": "8be8f6a3fdaca48d464ef20eeb7cad8e7f1c5ef13b8c74df3fb584b8492ca6c0",
+      "function": "search_recur",
+      "status": "error",
+      "flags": [],
+      "output_head": "IndentationError: expected an indented block after class definition on line 9 (<string>, line 11)",
+      "output_tail": "IndentationError: expected an indented block after class definition on line 9 (<string>, line 11)"
+    },
+    {
+      "idx": "63e7ba3e0826dbfb3673b619c5caa94f1aba97ba1309e73812909e689653f907",
+      "function": "erosion",
+      "status": "nondet",
+      "flags": [
+        "stderr"
+      ],
+      "output_head": "[[0 0 0 0 0 0 0 0 0 0]\n [0 0 0 0 0 0 0 0 0 0]\n [0 0 0 0 0 0 0 0 0 0]\n [0 0 0 0 0 0 0 0 0 0]\n [0 0 0 0 0 0 0 0 0 0]\n [0 0 0 0 0 0 0 0 0 0]\n [0 0 0 0 0 0 0 0 0 0]\n [0 0 0 0 0 0 0 0 0 0]\n [0 0 0 0 0 0 0 0 0 0]\n [0 0 0 0 0 0 0 0 0 0]]\n\n/tmp/tmp8q0ghnjz/task.py:66: FutureWarning: `square` is deprecated s",
+      "output_tail": "[0 0 0 0 0 0 0 0 0 0]\n [0 0 0 0 0 0 0 0 0 0]\n [0 0 0 0 0 0 0 0 0 0]]\n\n/tmp/tmp8q0ghnjz/task.py:66: FutureWarning: `square` is deprecated since version 0.25 and will be removed in version 0.27. Use `skimage.morphology.footprint_rectangle` instead.\n  structuring_element = skimage.morphology.square(5)\n"
+    },
+    {
+      "idx": "33e6d988fb8a4128c28c334be260e29c74ca852a572add545ab195f820a0ac05",
+      "function": "load_read_counts",
+      "status": "ok",
+      "flags": [],
+      "output_head": "(['Sample1', 'Sample2', 'Sample3', 'Sample4', 'Sample5'], {'Sample1': {}, 'Sample2': {}, 'Sample3': {}, 'Sample4': {}, 'Sample5': {}})\n",
+      "output_tail": "(['Sample1', 'Sample2', 'Sample3', 'Sample4', 'Sample5'], {'Sample1': {}, 'Sample2': {}, 'Sample3': {}, 'Sample4': {}, 'Sample5': {}})\n"
+    }
+  ]
+}

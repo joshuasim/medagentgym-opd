@@ -1,0 +1,5 @@
+# MedAgentGym's image (ehr_gym:latest) doesn't include pysam or centrosome,
+# which 74 of the 157 BioCoder test tasks import. Bake them in so every
+# `docker run` has them (installing inside a running container is lost on exit).
+FROM ehr_gym:latest
+RUN python -m pip install --no-cache-dir pysam centrosome
