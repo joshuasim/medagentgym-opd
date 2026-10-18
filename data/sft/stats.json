@@ -1,0 +1,21 @@
+{
+  "trajectories_kept": 351,
+  "skipped": {
+    "not_success": 0,
+    "no_signature": 0,
+    "bad_roles": 0
+  },
+  "trajectories_on_test_functions": 37,
+  "trajectories_not_in_train_tasks": 0,
+  "assistant_turns_mean": 1.75,
+  "single_turn_fraction": 0.766,
+  "full_train_val": [
+    334,
+    17
+  ],
+  "clean_train_val": [
+    299,
+    15
+  ],
+  "test_overlap": "69/157"
+}
