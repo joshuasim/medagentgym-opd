@@ -42,7 +42,13 @@ if [ ! -x trainenv/bin/python ]; then
 fi
 uv pip install -q -p trainenv/bin/python "verl[vllm]==0.9.0" \
   "langchain==0.3.23" "langchain_community==0.3.21" openai Levenshtein gymnasium tiktoken toml jsonlines \
-  cachetools fastapi uvicorn pandas pyarrow huggingface_hub
+  cachetools fastapi uvicorn pandas pyarrow huggingface_hub ninja
+
+# --- `python` for task code: a wrapper that always runs taskenv's interpreter, so trainenv/bin
+#     (vllm, ninja, ...) can also be on PATH without shadowing it
+mkdir -p taskbin
+printf '#!/bin/sh\nexec %s/taskenv/bin/python "$@"\n' "$BASE" > taskbin/python
+chmod +x taskbin/python
 
 # --- model weights
 export HF_HOME="$BASE/hf_cache"
