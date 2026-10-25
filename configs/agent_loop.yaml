@@ -1,0 +1,9 @@
+# Pass with: actor_rollout_ref.rollout.agent.agent_loop_config_path=configs/agent_loop.yaml
+# and set PYTHONPATH to include this repo and MEDAGENTGYM_ROOT to the MedAgentGym clone.
+- name: medagentgym
+  _target_: opd.agent_loop.MedAgentGymAgentLoop
+  max_turns: 15              # MedAgentGym num_steps
+  debugger: policy           # "policy" = the model being trained answers debug requests; "none" = disabled
+  debugger_max_tokens: 1024
+  format_reward_weight: 0.0  # paper uses a correctness + format reward; weight not reported
+  terminal_timeout: 120

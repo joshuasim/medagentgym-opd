@@ -16,3 +16,6 @@ __pycache__/
 *.pyc
 .DS_Store
 .trash/
+cache/
+logs/*.out
+results/*/vllm.log

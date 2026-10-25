@@ -12,6 +12,7 @@ scripts/check_tasks.py         run every task's reference code twice: ok / error
 scripts/check_free_credit.py   does a dummy (wrong) function still get full credit?
 data/sft/                      generated SFT data + stats + test overlap list
 data/checks/                   per-task check results + valid task lists
+opd/, configs/, train/, tests/ multi-turn VeRL connector (see below)
 ```
 
 ## SFT data
@@ -77,3 +78,42 @@ Note: stock `ehr_gym:latest` lacks pysam and centrosome -> 74 test tasks fail on
 - An earlier check (`check_biocoder.py`, using `exec`) reported 152/157 OK, but `exec` skips `if __name__ == "__main__": main()`, so it only checked that the code loads.
 
 Lists: `data/checks/test_valid_subsets.json` (78 valid / 30 valid+clean), `data/checks/train_valid.json` (429 RL prompts).
+
+## MedAgentGym <-> VeRL connector (multi-turn rollouts for GRPO and OPD)
+
+```
+opd/biocoder_env.py        one BioCoder episode, reusing MedAgentGym's prompt, parser, validate_code, task validation
+opd/agent_loop.py          VeRL agent loop "medagentgym": generate -> run action in env -> append observation -> repeat
+configs/agent_loop.yaml    registers the agent loop (max_turns 15, debugger, format reward weight)
+scripts/build_rl_data.py   data/rl/{train_valid,train_all,test_all}.parquet (VeRL RL dataset rows)
+train/{common,grpo,opd}.sh DRAFT launch scripts (config keys validated with hydra; not yet run on GPU)
+tests/test_agent_loop.py   CPU tests with a scripted fake LLM server
+tests/replay_sft.py        replays released SFT trajectories through our env
+```
+
+How it fits VeRL 0.9.0: assistant tokens get `response_mask=1`, environment observations get `0`.
+The agent loop sets `reward_score` (1 if solved, plus optional format reward), which GRPO uses.
+VeRL 0.9 has on-policy distillation built in (`distillation.*` config): after the agent loop
+returns, the teacher scores prompt+response and the loss is applied to masked-in tokens only.
+So GRPO and OPD share this exact rollout code and differ only in config (`train/grpo.sh` vs `train/opd.sh`).
+
+Checks (Oct 19, 2026, CPU, verl 0.9.0, Qwen2.5 tokenizer):
+- Rebuilt prompts are character-identical to the system prompts in all 351 released SFT trajectories.
+- `tests/test_agent_loop.py`: 6/6 pass. Reference solution solves in 1 turn; wrong -> parse error -> debug -> right
+  gives 4 turns with correct masks; token ids built turn by turn match the chat template of the full
+  conversation; max_turns and token budget respected; free-credit task rewards a dummy (why we filter).
+- `tests/replay_sft.py`: on the 189 SFT trajectories for valid tasks, our env scores 187 final answers correct.
+  100/113 intermediate observations match the recorded ones exactly after normalizing file paths; the rest
+  are pip output (environment-specific) and Python set ordering. Set ordering depends on hash randomization,
+  so the launch scripts set `PYTHONHASHSEED=0` to make those answers stable.
+- SFT parquet loads in verl's `MultiTurnSFTDataset`; loss mask covers assistant turns only.
+  31/351 trajectories contain a non-JSON assistant turn (e.g. a ```python block); SFT will learn those too.
+
+Deliberate differences from MedAgentGym (see `opd/biocoder_env.py` docstring):
+1. On a JSON parse failure MedAgentGym replaces the model's reply in the history; we keep the real tokens (needed for on-policy training). The observation is the same error string.
+2. `terminal` has a 120 s timeout (original has none, and its failure path raises NameError).
+3. `debug` is answered by the policy model by default (original: Azure gpt-4.1-mini). `debugger: none` disables it.
+4. Reference answers are cached per task instead of recomputed every episode.
+
+Prompt format: by default system + user messages (MedAgentGym's OpenAI/Azure path, same as the SFT data).
+`build_rl_data.py --merge_system` reproduces MedAgentGym's vLLM path (system text merged into the user turn).
