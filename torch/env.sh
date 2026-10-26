@@ -11,3 +11,4 @@ export PATH="$BASE/taskbin:$BASE/trainenv/bin:$HOME/.local/bin:$PATH"
 export PYTHONPATH="$REPO:$MEDAGENTGYM_ROOT:${PYTHONPATH:-}"
 export PYTHONHASHSEED=0   # some task outputs print sets; fix iteration order so answers are stable
 export TOKENIZERS_PARALLELISM=false
+export TQDM_DISABLE=1   # MedAgentGym prints a progress bar per code run; silence it in logs

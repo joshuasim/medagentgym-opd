@@ -14,6 +14,7 @@ Options: --merge_system (MedAgentGym's vLLM prompt format), --debugger policy|no
 
 import argparse
 import asyncio
+import logging
 import json
 import os
 import sys
@@ -99,6 +100,8 @@ async def main_async(args):
 
 
 def main():
+    for name in ("httpx", "httpx2", "ehr_gym", "ehr_gym.env.action.function"):
+        logging.getLogger(name).setLevel(logging.WARNING)
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True)
     ap.add_argument("--out", required=True)
