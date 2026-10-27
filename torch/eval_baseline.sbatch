@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH --job-name=biocoder-eval
-#SBATCH --account=torch_pr_69_general
+#SBATCH --account=torch_pr_69_tandon_priority   # approved by Prof. Tan (Oct 27); fallback: torch_pr_69_tandon_advanced
 #SBATCH --gres=gpu:1
-#SBATCH --cpus-per-task=16
-#SBATCH --mem=64G
-#SBATCH --time=03:00:00
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=32G
+#SBATCH --time=02:00:00
 #SBATCH --output=logs/%x-%j.out
 # Baseline eval on the 157 BioCoder test tasks. Submit from the repo folder:
 #   sbatch torch/eval_baseline.sbatch                                   (base Qwen2.5-7B-Instruct)
