@@ -117,3 +117,17 @@ Deliberate differences from MedAgentGym (see `opd/biocoder_env.py` docstring):
 
 Prompt format: by default system + user messages (MedAgentGym's OpenAI/Azure path, same as the SFT data).
 `build_rl_data.py --merge_system` reproduces MedAgentGym's vLLM path (system text merged into the user turn).
+
+## SFT warm-up (train/sft.sbatch)
+
+LoRA SFT of Qwen2.5-7B-Instruct on the BioCoder trajectories with `verl.trainer.sft_trainer`,
+then `scripts/merge_lora.py` (VeRL's model_merger extracts the adapter, PEFT merges it), then
+the same eval as the baselines. `sbatch train/sft.sbatch` (full) or `DATA=clean sbatch train/sft.sbatch`.
+
+- lr 1e-4, batch 8 (paper App. E); 3 epochs (not stated in paper); LoRA r=64, alpha=128, all linear layers.
+- Loss on assistant turns only (checked on CPU: ~34% of tokens; no per-turn vs full-template token mismatch).
+- Max length 8192: the 2 longer trajectories (347.jsonl, 33,442 tokens; 97.jsonl, 8,597) are dropped, not truncated,
+  since truncation would cut off the final answer. 332 train / 17 val remain.
+- Needs `flash_attn` in trainenv: VeRL's CUDA path imports it directly (padding utils) and loads models with
+  flash_attention_2. `verl[vllm]` does not install it; run `sbatch torch/install_flash_attn.sbatch` once.
+- Merged model goes to `$SCRATCH/capstone/models/qwen7b-sft-<data>/`, which is `STUDENT_PATH` for OPD and GRPO.

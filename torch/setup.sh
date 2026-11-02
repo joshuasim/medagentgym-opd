@@ -44,6 +44,8 @@ uv pip install -q -p trainenv/bin/python "verl[vllm]==0.9.0" \
   "langchain==0.3.23" "langchain_community==0.3.21" openai Levenshtein gymnasium tiktoken toml jsonlines \
   cachetools fastapi uvicorn pandas pyarrow huggingface_hub ninja
 
+# flash-attn is NOT installed here (needs a GPU node / nvcc): run `sbatch torch/install_flash_attn.sbatch` once.
+
 # --- `python` for task code: a wrapper that always runs taskenv's interpreter, so trainenv/bin
 #     (vllm, ninja, ...) can also be on PATH without shadowing it
 mkdir -p taskbin
