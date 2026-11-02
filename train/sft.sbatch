@@ -11,13 +11,15 @@
 #   sbatch train/sft.sbatch                      (full set: 334 train / 17 val, paper-faithful)
 #   DATA=clean sbatch train/sft.sbatch           (drops the 37 trajectories on test-overlapping functions)
 #   SKIP_EVAL=1 sbatch train/sft.sbatch          (train + merge only)
-# Paper (MedAgentGym App. E): AdamW, lr 1e-4, batch size 8. Epochs are not stated; we use 3.
-# Max length 8192: trajectories longer than that (2 of 334 in the full set) are dropped, not truncated,
-# because truncation would cut off the final answer (scripts/filter_sft_length.py).
+# Paper (MedAgentGym App. E): AdamW, lr 1e-4, batch size 8. Epochs are not stated; default 2 (see below).
+# Max length 10240 (= RL prompt 2048 + response 8192): longer trajectories are dropped, not truncated,
+# because truncation would cut off the final answer. Only 347.jsonl (33,442 tokens) is dropped.
+# (Run 1 used 8192 and also dropped 97.jsonl, 8,597 tokens.)
 # Outputs:
-#   $SCRATCH/capstone/checkpoints/sft_$DATA/   VeRL checkpoint (last step only)
-#   $SCRATCH/capstone/models/qwen7b-sft-$DATA/ merged HF model  <- STUDENT_PATH for OPD / GRPO
-#   results/sft_$DATA/                          eval on 157 / 78 / 30 (both prompt formats)
+#   $SCRATCH/capstone/checkpoints/sft_<data>_e<epochs>/   VeRL checkpoint (last step only)
+#   $SCRATCH/capstone/models/qwen7b-sft_<data>_e<epochs>/ merged HF model  <- STUDENT_PATH for OPD / GRPO
+#   results/sft_<data>_e<epochs>/                         eval on 157 / 78 / 30 (both prompt formats)
+# (run 1 used the old names: checkpoints/sft_full, models/qwen7b-sft-full, results/sft_full = 3 epochs)
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 source torch/env.sh
@@ -25,9 +27,12 @@ source torch/env.sh
 "$TRAIN_PY" -c "import flash_attn, peft" || { echo "flash_attn or peft missing in trainenv (see README: SFT)"; exit 1; }
 DATA="${DATA:-full}"
 BASE_MODEL="${BASE_MODEL:-Qwen/Qwen2.5-7B-Instruct}"
-EPOCHS="${EPOCHS:-3}"
-CKPT="$SCRATCH/capstone/checkpoints/sft_$DATA"
-MERGED="$SCRATCH/capstone/models/qwen7b-sft-$DATA"
+EPOCHS="${EPOCHS:-2}"
+# 3 epochs (run 1, Nov 2) overfit: val loss bottomed at ~0.164 around steps 40-80 and rose to 0.185 by
+# step 123 while train loss fell to 0.05. Epoch count is chosen on val loss, never on test accuracy.
+RUN="sft_${DATA}_e${EPOCHS}"
+CKPT="$SCRATCH/capstone/checkpoints/$RUN"
+MERGED="$SCRATCH/capstone/models/qwen7b-$RUN"
 BIN="$(dirname "$TRAIN_PY")"
 mkdir -p "$SCRATCH/capstone/models" "$CKPT"
 
@@ -38,7 +43,7 @@ OFFLOAD=false; [ "$GPU_MB" -lt 60000 ] && OFFLOAD=true
 echo "GPU memory ${GPU_MB} MiB -> param_offload=$OFFLOAD"
 
 SFT_DATA="$CKPT/data"
-"$TRAIN_PY" "$REPO/scripts/filter_sft_length.py" --tokenizer "$BASE_MODEL" --max_tokens 8192 --out_dir "$SFT_DATA" \
+"$TRAIN_PY" "$REPO/scripts/filter_sft_length.py" --tokenizer "$BASE_MODEL" --max_tokens 10240 --out_dir "$SFT_DATA" \
   "$REPO/data/sft/sft_${DATA}_train.parquet" "$REPO/data/sft/sft_${DATA}_val.parquet"
 
 echo "=== SFT ($DATA, $EPOCHS epochs) ==="
@@ -50,7 +55,7 @@ echo "=== SFT ($DATA, $EPOCHS epochs) ==="
   data.micro_batch_size_per_gpu=4 \
   data.use_dynamic_bsz=true \
   data.max_token_len_per_gpu=16384 \
-  data.max_length=8192 \
+  data.max_length=10240 \
   data.truncation=error \
   data.num_workers=4 \
   model.path="$BASE_MODEL" \
@@ -69,7 +74,7 @@ echo "=== SFT ($DATA, $EPOCHS epochs) ==="
   trainer.resume_mode=disable \
   trainer.default_local_dir="$CKPT" \
   trainer.project_name=medagentgym-opd \
-  trainer.experiment_name="sft_$DATA" \
+  trainer.experiment_name="$RUN" \
   trainer.logger='["console"]' \
   trainer.n_gpus_per_node=1
 
@@ -78,5 +83,5 @@ echo "=== merge LoRA -> $MERGED ==="
 
 if [ -z "${SKIP_EVAL:-}" ]; then
   echo "=== eval ==="
-  MODEL="$MERGED" TAG="sft_$DATA" bash torch/eval_baseline.sbatch
+  MODEL="$MERGED" TAG="$RUN" bash torch/eval_baseline.sbatch
 fi
