@@ -5,7 +5,7 @@
 # Loss choice to confirm on GPU: k1 + use_policy_gradient treats -(log p_student - log p_teacher) as a
 # per-token reward (the OPD recipe); task rewards off = pure OPD. Set use_task_rewards=true to mix in GRPO.
 source "$(dirname "$0")/common.sh"
-python -m verl.trainer.main_ppo "${COMMON_ARGS[@]}" \
+"$PY" -m verl.trainer.main_ppo "${COMMON_ARGS[@]}" \
   algorithm.adv_estimator=grpo \
   distillation.enabled=true \
   distillation.teacher_models.teacher_model.model_path="$TEACHER_PATH" \

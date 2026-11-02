@@ -10,6 +10,9 @@ REPO=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 export PYTHONPATH="$REPO:${MEDAGENTGYM_ROOT}:${PYTHONPATH:-}"
 export PYTHONHASHSEED=0   # set iteration order is part of some task outputs; fix it so answers are stable
 cd "$REPO"                # validate_code writes ./cache/
+# torch/env.sh puts taskenv's `python` first on PATH (for executing task code), so the trainer
+# must be launched with trainenv's interpreter explicitly.
+PY="${TRAIN_PY:?source torch/env.sh first}"
 
 COMMON_ARGS=(
   data.train_files="$REPO/data/rl/train_valid.parquet"
@@ -23,6 +26,8 @@ COMMON_ARGS=(
   actor_rollout_ref.model.lora_alpha=128
   actor_rollout_ref.actor.optim.lr=1e-5  # paper: 1e-5
   actor_rollout_ref.actor.ppo_mini_batch_size=32
+  actor_rollout_ref.actor.use_dynamic_bsz=true          # pack by tokens; one episode is up to 2048+8192
+  actor_rollout_ref.actor.ppo_max_token_len_per_gpu=16384
   actor_rollout_ref.rollout.name=vllm
   actor_rollout_ref.rollout.temperature=0.6   # paper: 0.6
   actor_rollout_ref.rollout.n=8
