@@ -9,7 +9,7 @@
 # One-time: install flash-attn into trainenv. VeRL's training path (SFT and the RL actor) imports it
 # directly; verl[vllm] does not install it. pip first looks for a prebuilt wheel matching trainenv's
 # torch/CUDA/Python; if none exists it compiles from source, which needs nvcc and takes 1-3 hours.
-# We only build for A100 (sm_80) and H100/H200 (sm_90) to keep the compile short.
+# Jobs can land on A100 (sm_80), L40S (sm_89) or H100/H200 (sm_90), so build for those three only.
 set -uo pipefail
 cd "$SLURM_SUBMIT_DIR"
 source torch/env.sh
@@ -25,7 +25,7 @@ if ! command -v nvcc >/dev/null 2>&1; then
 fi
 command -v nvcc && nvcc --version | tail -1 || echo "WARNING: no nvcc - a source build will fail; paste this log"
 
-export MAX_JOBS=12 FLASH_ATTN_CUDA_ARCHS="80;90" NVCC_THREADS=2
+export MAX_JOBS=12 FLASH_ATTN_CUDA_ARCHS="80;89;90" NVCC_THREADS=2
 export TMPDIR="$SCRATCH/capstone/tmp"; mkdir -p "$TMPDIR"
 uv pip install -p "$TRAIN_PY" psutil packaging ninja einops wheel setuptools
 time uv pip install -p "$TRAIN_PY" --no-build-isolation -v "flash-attn==2.8.3" 2>&1 | tail -40
