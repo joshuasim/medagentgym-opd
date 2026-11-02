@@ -27,7 +27,10 @@ command -v nvcc && nvcc --version | tail -1 || echo "WARNING: no nvcc - a source
 
 export MAX_JOBS=12 FLASH_ATTN_CUDA_ARCHS="80;89;90" NVCC_THREADS=2
 export TMPDIR="$SCRATCH/capstone/tmp"; mkdir -p "$TMPDIR"
-uv pip install -p "$TRAIN_PY" psutil packaging ninja einops wheel setuptools
+# setuptools calls canonicalize_version(..., strip_trailing_zero=...), which needs packaging>=24.2;
+# trainenv had an older packaging, so the first build compiled fine and then failed while writing metadata
+uv pip install -p "$TRAIN_PY" psutil "packaging>=24.2" ninja einops wheel setuptools
+"$TRAIN_PY" -c "import packaging, setuptools; print('packaging', packaging.__version__, 'setuptools', setuptools.__version__)"
 time uv pip install -p "$TRAIN_PY" --no-build-isolation -v "flash-attn==2.8.3" 2>&1 | tail -40
 
 "$TRAIN_PY" - <<'PY'

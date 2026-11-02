@@ -9,6 +9,7 @@
 # Baseline eval on the 157 BioCoder test tasks. Submit from the repo folder:
 #   sbatch torch/eval_baseline.sbatch                                   (base Qwen2.5-7B-Instruct)
 #   MODEL=MedAgentGym/MedCopilot-7B TAG=medcopilot7b sbatch torch/eval_baseline.sbatch
+#   MODEL=Qwen/Qwen2.5-32B-Instruct TAG=base_qwen32b TP=2 sbatch --gres=gpu:2 --time=04:00:00 torch/eval_baseline.sbatch
 # Runs twice: MedAgentGym's vLLM prompt format (system merged into user, like the paper's
 # open-model runs) and the separate-system format our SFT/RL training uses.
 set -euo pipefail
@@ -16,12 +17,13 @@ cd "$SLURM_SUBMIT_DIR"
 source torch/env.sh
 MODEL="${MODEL:-Qwen/Qwen2.5-7B-Instruct}"
 TAG="${TAG:-base_qwen7b}"
+TP="${TP:-1}"   # tensor parallel GPUs for vLLM; 32B needs TP=2 plus: sbatch --gres=gpu:2
 OUT="$REPO/results/$TAG"
 mkdir -p "$OUT"
 cd "$MEDAGENTGYM_ROOT"   # validate_code writes ./cache here
 
 nvidia-smi --query-gpu=name,memory.total --format=csv
-"$(dirname "$TRAIN_PY")/vllm" serve "$MODEL" --port 8000 --max-model-len 32768 \
+"$(dirname "$TRAIN_PY")/vllm" serve "$MODEL" --port 8000 --max-model-len 32768 --tensor-parallel-size "$TP" \
   --gpu-memory-utilization 0.9 --dtype bfloat16 --served-model-name "$MODEL" \
   > "$OUT/vllm.log" 2>&1 &
 VLLM_PID=$!
