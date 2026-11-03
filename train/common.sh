@@ -35,6 +35,10 @@ COMMON_ARGS=(
   actor_rollout_ref.rollout.temperature=0.6   # paper: 0.6
   actor_rollout_ref.rollout.n=8
   actor_rollout_ref.rollout.gpu_memory_utilization=0.5
+  # Weights are synced to vLLM in fp32. Qwen2.5-7B's embedding/lm_head are 2.18 GB each, larger than the
+  # default 2048 MB bucket, so they take verl's "direct send" path, which only works for CUDA tensors and
+  # crashes (IndexError in rebuild_ipc) when FSDP param offload keeps them on CPU. A 3 GB bucket avoids it.
+  actor_rollout_ref.rollout.checkpoint_engine.update_weights_bucket_megabytes=3072
   actor_rollout_ref.rollout.tensor_model_parallel_size=1
   actor_rollout_ref.rollout.multi_turn.enable=true
   actor_rollout_ref.rollout.agent.default_agent_loop=medagentgym
