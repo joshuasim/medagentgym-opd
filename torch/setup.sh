@@ -34,6 +34,7 @@ mkdir -p MedAgentGym/cache
 if [ ! -x taskenv/bin/python ]; then
   uv venv -q -p 3.11 taskenv
 fi
+chmod -R u+w taskenv   # taskenv is kept read-only between setups (see below)
 uv pip install -q -p taskenv/bin/python -r MedAgentGym/requirements.txt pysam centrosome torch
 
 # --- trainenv: verl + vLLM for training and fast evaluation
@@ -60,5 +61,8 @@ trainenv/bin/hf download Qwen/Qwen2.5-7B-Instruct --quiet
 echo
 echo "taskenv : $(taskenv/bin/python -c 'import numpy, pysam, centrosome; print("numpy", numpy.__version__, "pysam ok, centrosome ok")')"
 echo "trainenv: $(trainenv/bin/python -c 'import verl, vllm, torch; print("verl", verl.__version__, "vllm", vllm.__version__, "torch", torch.__version__)')"
+# Lock taskenv read-only. Task answers depend on its exact packages, and on Nov 2 an agent's terminal
+# command installed CNVkit (cnvlib, skgenome) into it from source, which pip shims cannot catch.
+chmod -R a-w taskenv/lib/python3.11/site-packages
 echo "repo    : $REPO"
 echo "Setup done."
