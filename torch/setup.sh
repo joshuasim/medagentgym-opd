@@ -41,7 +41,9 @@ uv pip install -q -p taskenv/bin/python -r MedAgentGym/requirements.txt pysam ce
 if [ ! -x trainenv/bin/python ]; then
   uv venv -q -p 3.11 trainenv
 fi
-uv pip install -q -p trainenv/bin/python "verl[vllm]==0.9.0" \
+# TransferQueue: verl 0.9's V1 PPO trainer imports it but does not declare it as a dependency.
+# 0.1.9 was the current release when verl 0.9.0 came out (Aug 2026) and has every function verl calls.
+uv pip install -q -p trainenv/bin/python "verl[vllm]==0.9.0" "TransferQueue==0.1.9" \
   "langchain==0.3.23" "langchain_community==0.3.21" openai Levenshtein gymnasium tiktoken toml jsonlines \
   cachetools fastapi uvicorn pandas pyarrow huggingface_hub ninja
 
