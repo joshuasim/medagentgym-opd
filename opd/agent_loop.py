@@ -55,6 +55,12 @@ class MedAgentGymAgentLoop(AgentLoopBase):
         self.format_reward_weight = format_reward_weight
         self.terminal_timeout = terminal_timeout
         self.response_length = self.rollout_config.response_length
+        # Agent shell commands and task code write into the working directory; keep them out of the repo
+        # and MedAgentGym by running this (Ray worker) process in the job's throwaway folder.
+        workdir = os.environ.get("MEDAGENTGYM_WORKDIR")
+        if workdir:
+            os.makedirs(workdir, exist_ok=True)
+            os.chdir(workdir)
         # validate_code writes ./cache/validation_code_*.py relative to the working directory
         os.makedirs(cache_dir or "cache", exist_ok=True)
 

@@ -9,7 +9,10 @@ set -euo pipefail
 REPO=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 export PYTHONPATH="$REPO:${MEDAGENTGYM_ROOT}:${PYTHONPATH:-}"
 export PYTHONHASHSEED=0   # set iteration order is part of some task outputs; fix it so answers are stable
-cd "$REPO"                # validate_code writes ./cache/
+# Agent shell commands and task code write into the working directory, so use a throwaway folder
+# (not the repo or MedAgentGym). opd/agent_loop.py chdirs Ray workers here too; validate_code writes ./cache/.
+export MEDAGENTGYM_WORKDIR="$SCRATCH/capstone/work/${SLURM_JOB_ID:-local}_train"
+mkdir -p "$MEDAGENTGYM_WORKDIR/cache" && cd "$MEDAGENTGYM_WORKDIR"
 # torch/env.sh puts taskenv's `python` first on PATH (for executing task code), so the trainer
 # must be launched with trainenv's interpreter explicitly.
 PY="${TRAIN_PY:?source torch/env.sh first}"

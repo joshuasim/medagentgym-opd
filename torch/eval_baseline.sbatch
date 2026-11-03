@@ -20,7 +20,11 @@ TAG="${TAG:-base_qwen7b}"
 TP="${TP:-1}"   # tensor parallel GPUs for vLLM; 32B needs TP=2 plus: sbatch --gres=gpu:2
 OUT="$REPO/results/$TAG"
 mkdir -p "$OUT"
-cd "$MEDAGENTGYM_ROOT"   # validate_code writes ./cache here
+# Run from a throwaway folder: the agent's terminal commands and the task code write files into the
+# working directory (on Nov 2 they left venvs, CNVkit source and csv files in MedAgentGym/). An empty
+# folder also matches how scripts/check_tasks.py audited the tasks. validate_code writes ./cache here.
+WORK="$SCRATCH/capstone/work/${SLURM_JOB_ID:-local}_$TAG"
+mkdir -p "$WORK/cache" && cd "$WORK"
 
 nvidia-smi --query-gpu=name,memory.total --format=csv
 "$(dirname "$TRAIN_PY")/vllm" serve "$MODEL" --port 8000 --max-model-len 32768 --tensor-parallel-size "$TP" \
