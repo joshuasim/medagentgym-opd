@@ -76,7 +76,11 @@ async def run_episode(args, client, data_path, index, sem):
 async def main_async(args):
     data_path = os.path.join(os.environ["MEDAGENTGYM_ROOT"], "data", "biocoder")
     tasks = load_tasks(data_path, args.mode)
-    indices = list(range(len(tasks)))[: args.limit or None]
+    indices = list(range(len(tasks)))
+    if args.idx_file:  # evaluate only these task idx values (e.g. the SFT-selection dev set)
+        keep = {str(x) for x in json.load(open(args.idx_file))["idx"]}
+        indices = [i for i, t in enumerate(tasks) if str(t["idx"]) in keep]
+    indices = indices[: args.limit or None]
     client = AsyncOpenAI(base_url=args.base_url, api_key="EMPTY", timeout=3600)
     sem = asyncio.Semaphore(args.concurrency)
     os.makedirs(args.out, exist_ok=True)
@@ -91,7 +95,13 @@ async def main_async(args):
     with open(os.path.join(args.out, "per_task.jsonl"), "w") as f:
         for r in results:
             f.write(json.dumps(r) + "\n")
-    summary = score_results(results, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "checks"))
+    if args.mode == "test" and not args.idx_file:
+        summary = score_results(results, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "checks"))
+    else:  # the valid/clean subsets are defined for the full test set only
+        n, k = len(results), sum(r["solved"] for r in results)
+        summary = {"all": {"solved": k, "n": n, "pct": round(100 * k / max(n, 1), 2)},
+                   "mean_turns": round(sum(r["turns"] for r in results) / max(n, 1), 2),
+                   "mode": args.mode, "idx_file": args.idx_file}
     summary.update({"model": args.model, "merge_system": args.merge_system, "debugger": args.debugger,
                     "temperature": args.temperature, "minutes": round((time.time() - t0) / 60, 1)})
     with open(os.path.join(args.out, "summary.json"), "w") as f:
@@ -114,6 +124,7 @@ def main():
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--concurrency", type=int, default=32)
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--idx_file", default=None, help="json with an 'idx' list; evaluate only those tasks")
     ap.add_argument("--save_history", action="store_true")
     asyncio.run(main_async(ap.parse_args()))
 

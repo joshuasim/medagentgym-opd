@@ -39,7 +39,11 @@ done
 curl -sf localhost:8000/health >/dev/null || { echo "vLLM failed to start"; tail -50 "$OUT/vllm.log"; exit 1; }
 echo "vLLM up after $((i*10))s"
 
-"$TRAIN_PY" "$REPO/scripts/eval_biocoder.py" --model "$MODEL" --out "$OUT/merged_prompt" --merge_system --save_history
-"$TRAIN_PY" "$REPO/scripts/eval_biocoder.py" --model "$MODEL" --out "$OUT/system_prompt" --save_history
-echo "=== merged prompt (paper format) ===";  cat "$OUT/merged_prompt/summary.json"
+# EVAL_ARGS: extra eval_biocoder.py args, e.g. "--mode train --idx_file $REPO/data/checks/dev_sft_select.json"
+# SYSTEM_ONLY=1: skip the merged-prompt (paper format) run
+if [ -z "${SYSTEM_ONLY:-}" ]; then
+  "$TRAIN_PY" "$REPO/scripts/eval_biocoder.py" --model "$MODEL" --out "$OUT/merged_prompt" --merge_system --save_history ${EVAL_ARGS:-}
+  echo "=== merged prompt (paper format) ===";  cat "$OUT/merged_prompt/summary.json"
+fi
+"$TRAIN_PY" "$REPO/scripts/eval_biocoder.py" --model "$MODEL" --out "$OUT/system_prompt" --save_history ${EVAL_ARGS:-}
 echo "=== system prompt (training format) ==="; cat "$OUT/system_prompt/summary.json"
