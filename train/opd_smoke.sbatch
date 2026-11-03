@@ -5,7 +5,7 @@
 #SBATCH --gres=gpu:2
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=200G
-#SBATCH --time=02:00:00
+#SBATCH --time=03:00:00   # 2 h was not enough to rule out slow rollouts; the watchdog ends crashed runs early
 #SBATCH --output=logs/%x-%j.out
 # OPD smoke run: 2 training steps on 16 training tasks, to check the pipeline before real runs.
 # GPU 0: student (FSDP actor + its vLLM rollout, colocated). GPU 1: teacher (vLLM, scores tokens).
@@ -24,7 +24,13 @@ export N_GPUS=1 TEACHER_GPUS=1
 OUT="$SCRATCH/capstone/runs/opd_smoke_${SLURM_JOB_ID}"
 mkdir -p "$OUT"
 nvidia-smi --query-gpu=name,memory.total --format=csv
+# Student GPU holds the FSDP actor (staged on GPU for weight sync) + vLLM at 0.4; teacher GPU holds a
+# 14B model at 0.85. Both need 80 GB cards; fail in seconds instead of OOM-ing mid-run.
+MIN_MB=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | sort -n | head -1)
+[ "$MIN_MB" -ge 75000 ] || { echo "GPU has ${MIN_MB} MiB; this run needs 80 GB GPUs"; exit 1; }
 echo "student=$STUDENT_PATH teacher=$TEACHER_PATH out=$OUT"
+source train/watchdog.sh
+start_watchdog "$OUT/train.log"
 
 bash train/opd.sh \
   data.train_max_samples=16 \

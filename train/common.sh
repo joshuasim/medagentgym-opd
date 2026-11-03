@@ -27,6 +27,10 @@ COMMON_ARGS=(
   actor_rollout_ref.model.path="$STUDENT_PATH"
   actor_rollout_ref.model.lora_rank=64
   actor_rollout_ref.model.lora_alpha=128
+  # Merge the LoRA into the base weights before each sync to vLLM, instead of loading it as a vLLM
+  # adapter. The adapter path crashed in the Nov 3 smoke run: vLLM received an empty adapter
+  # (StopIteration in _create_merged_loras_inplace). Merged sync uses the plain full-weight path.
+  actor_rollout_ref.model.lora.merge=true
   actor_rollout_ref.actor.optim.lr=1e-5  # paper: 1e-5
   actor_rollout_ref.actor.ppo_mini_batch_size=32
   actor_rollout_ref.actor.use_dynamic_bsz=true          # pack by tokens; one episode is up to 2048+8192
