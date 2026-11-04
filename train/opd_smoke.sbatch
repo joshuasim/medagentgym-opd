@@ -2,13 +2,13 @@
 #SBATCH --job-name=opd-smoke
 #SBATCH --account=torch_pr_69_tandon_priority   # fallback: torch_pr_69_tandon_advanced
 #SBATCH --partition=a100_tandon,h100_tandon,h200_public   # skip 48 GB L40S: 7B actor + vLLM won't fit
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:3
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=200G
 #SBATCH --time=03:00:00   # 2 h was not enough to rule out slow rollouts; the watchdog ends crashed runs early
 #SBATCH --output=logs/%x-%j.out
 # OPD smoke run: 2 training steps on 16 training tasks, to check the pipeline before real runs.
-# GPU 0: student (FSDP actor + its vLLM rollout, colocated). GPU 1: teacher (vLLM, scores tokens).
+# GPUs 0-1: student (FSDP actor + its vLLM rollout, colocated). GPU 2: teacher (vLLM, scores tokens).
 # Plumbing test only, so it does not need the SFT model or the final teacher choice:
 #   sbatch train/opd_smoke.sbatch
 #   STUDENT_PATH=$SCRATCH/capstone/models/qwen7b-sft-full TEACHER_PATH=MedAgentGym/MedCopilot-14B sbatch train/opd_smoke.sbatch
@@ -20,7 +20,10 @@ source torch/env.sh
 "$TRAIN_PY" -c "import flash_attn" || { echo "flash_attn missing: sbatch torch/install_flash_attn.sbatch first"; exit 1; }
 export STUDENT_PATH="${STUDENT_PATH:-Qwen/Qwen2.5-7B-Instruct}"
 export TEACHER_PATH="${TEACHER_PATH:-Qwen/Qwen2.5-14B-Instruct}"
-export N_GPUS=1 TEACHER_GPUS=1
+# Student on 2 GPUs: on 1 GPU the training process held 61 GB of real allocations at the first weight
+# sync (Nov 4 run: OOM in merged_lora_context's base-weight backup, 0.07 GB fragmentation), leaving no
+# room next to vLLM. FSDP shards the student across 2 GPUs. GPU 3 is the teacher.
+export N_GPUS=2 TEACHER_GPUS=1
 OUT="$SCRATCH/capstone/runs/opd_smoke_${SLURM_JOB_ID}"
 mkdir -p "$OUT"
 nvidia-smi --query-gpu=name,memory.total --format=csv
