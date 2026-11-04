@@ -43,7 +43,7 @@ bash train/opd.sh \
   actor_rollout_ref.actor.fsdp_config.param_offload=true \
   actor_rollout_ref.actor.fsdp_config.optimizer_offload=true \
   actor_rollout_ref.rollout.gpu_memory_utilization=0.4 \
-  distillation.teacher_models.teacher_model.inference.gpu_memory_utilization=0.85 \
+  distillation.teacher_models.teacher_model.inference.gpu_memory_utilization=0.7 \
   trainer.total_training_steps=2 \
   trainer.val_before_train=false \
   trainer.test_freq=-1 \
