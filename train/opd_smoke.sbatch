@@ -16,6 +16,13 @@
 # scripts/check_rollouts.py shows multi-turn episodes with env output masked out.
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
+# If several smoke jobs were queued in different layouts (e.g. 3x A100 and 2x H200), the first one to
+# start cancels the others that are still waiting, so only one runs.
+scancel --user="$USER" --name=opd-smoke --state=PENDING || true
+# And if an older smoke job is already running (one queued before this rule existed), step aside.
+for _j in $(squeue -u "$USER" -n opd-smoke -t RUNNING -h -o %i); do
+  if [ "$_j" -lt "$SLURM_JOB_ID" ]; then echo "smoke job $_j is already running; exiting"; exit 0; fi
+done
 source torch/env.sh
 "$TRAIN_PY" -c "import flash_attn" || { echo "flash_attn missing: sbatch torch/install_flash_attn.sbatch first"; exit 1; }
 export STUDENT_PATH="${STUDENT_PATH:-Qwen/Qwen2.5-7B-Instruct}"
@@ -23,7 +30,9 @@ export TEACHER_PATH="${TEACHER_PATH:-Qwen/Qwen2.5-14B-Instruct}"
 # Student on 2 GPUs: on 1 GPU the training process held 61 GB of real allocations at the first weight
 # sync (Nov 4 run: OOM in merged_lora_context's base-weight backup, 0.07 GB fragmentation), leaving no
 # room next to vLLM. FSDP shards the student across 2 GPUs. GPU 3 is the teacher.
-export N_GPUS=2 TEACHER_GPUS=1
+# Override for 141 GB H200s, where the student fits on 1 GPU (2-GPU job, easier to schedule):
+#   N_GPUS=1 sbatch --partition=h200_public --gres=gpu:2 train/opd_smoke.sbatch
+export N_GPUS="${N_GPUS:-2}" TEACHER_GPUS="${TEACHER_GPUS:-1}"
 OUT="$SCRATCH/capstone/runs/opd_smoke_${SLURM_JOB_ID}"
 mkdir -p "$OUT"
 nvidia-smi --query-gpu=name,memory.total --format=csv
