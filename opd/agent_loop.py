@@ -20,6 +20,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import os
+import time
 from typing import Any
 from uuid import uuid4
 
@@ -43,6 +44,8 @@ class MedAgentGymAgentLoop(AgentLoopBase):
         debugger_max_tokens: int = 1024,
         format_reward_weight: float = 0.0,
         terminal_timeout: int = 120,
+        code_timeout: int | None = None,  # cap on validate_code's 120 s during training rollouts
+        episode_time_budget: float | None = None,  # wall-clock seconds; episode stops (unsolved) after this
         cache_dir: str | None = None,
         tools=None,  # passed by AgentLoopWorker; unused
         **kwargs,
@@ -54,6 +57,8 @@ class MedAgentGymAgentLoop(AgentLoopBase):
         self.debugger_max_tokens = debugger_max_tokens
         self.format_reward_weight = format_reward_weight
         self.terminal_timeout = terminal_timeout
+        self.code_timeout = code_timeout
+        self.episode_time_budget = episode_time_budget
         self.response_length = self.rollout_config.response_length
         # Agent shell commands and task code write into the working directory; keep them out of the repo
         # and MedAgentGym by running this (Ray worker) process in the job's throwaway folder.
@@ -104,7 +109,7 @@ class MedAgentGymAgentLoop(AgentLoopBase):
 
         loop = asyncio.get_running_loop()
         episode = await loop.run_in_executor(
-            None, lambda: BioCoderEpisode(self.data_path, mode, task_index, self.terminal_timeout)
+            None, lambda: BioCoderEpisode(self.data_path, mode, task_index, self.terminal_timeout, self.code_timeout)
         )
 
         prompt_ids = await self.apply_chat_template(messages)
@@ -118,7 +123,11 @@ class MedAgentGymAgentLoop(AgentLoopBase):
         # this trajectory). VeRL's V1 trainer reads these tags; ToolAgentLoop copies them the same way.
         server_fields: dict[str, Any] = {}
 
+        t_start = time.monotonic()
         while turns < self.max_turns:
+            if self.episode_time_budget and time.monotonic() - t_start > self.episode_time_budget:
+                stop_reason = "time_budget"  # straggler: stop so the batch isn't held up (counts as unsolved)
+                break
             remaining = self.response_length - len(response_mask)
             if remaining <= 0:
                 stop_reason = "token_budget"

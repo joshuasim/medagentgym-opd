@@ -6,4 +6,8 @@
   debugger: policy           # "policy" = the model being trained answers debug requests; "none" = disabled
   debugger_max_tokens: 1024
   format_reward_weight: 0.0  # paper uses a correctness + format reward; weight not reported
-  terminal_timeout: 120
+  # Training-rollout limits (evaluation keeps MedAgentGym's 120 s and no budget). Without them a few
+  # agents with hanging code held whole batches ~30 min and NYU HPC cancelled the jobs for low GPU use.
+  terminal_timeout: 30
+  code_timeout: 30           # validate_code cap per call; reference answers still get 120 s
+  episode_time_budget: 300   # seconds per episode; stop (unsolved) after this

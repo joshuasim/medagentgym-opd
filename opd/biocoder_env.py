@@ -37,6 +37,23 @@ if _MEDAGENTGYM_ROOT and _MEDAGENTGYM_ROOT not in sys.path:
 from ehr_gym.agent.parser import parse_llm_response  # noqa: E402
 from ehr_gym.agent.prompt import DynamicPrompt  # noqa: E402
 from ehr_gym.env.action.function import validate_code  # noqa: E402
+import ehr_gym.env.action.function as _ehr_function  # noqa: E402
+
+# Optional per-call cap on validate_code's 120 s timeout, used only for training rollouts (a few
+# agents writing hanging code made each batch wait ~30 min). Thread-local so reference answers,
+# which are computed outside agent steps, always get MedAgentGym's full 120 s.
+_CODE_CAP = threading.local()
+_orig_run_code_file = _ehr_function._run_code_file
+
+
+def _run_code_file_capped(code_file, timeout=None):
+    cap = getattr(_CODE_CAP, "seconds", None)
+    if cap is not None and (timeout is None or timeout > cap):
+        timeout = cap
+    return _orig_run_code_file(code_file, timeout=timeout)
+
+
+_ehr_function._run_code_file = _run_code_file_capped
 from ehr_gym.env.task.biocoder import BiocoderTask, instruction, signature_information  # noqa: E402
 
 PERMITTED_ACTIONS = BiocoderTask.permitted_actions  # ['validate_code', 'debug', 'terminal']
@@ -141,11 +158,13 @@ class BioCoderEpisode:
     then `finish_debug(response)` to get the StepResult.
     """
 
-    def __init__(self, data_path: str, mode: str, task_index: int, terminal_timeout: int = 120):
+    def __init__(self, data_path: str, mode: str, task_index: int, terminal_timeout: int = 120,
+                 code_timeout: Optional[int] = None):
         self.tasks = load_tasks(data_path, mode)
         self.task_data = self.tasks[task_index]
         self.task_index = task_index
         self.terminal_timeout = terminal_timeout
+        self.code_timeout = code_timeout  # None = MedAgentGym's 120 s (evaluation)
 
         # Build a BiocoderTask without calling setup() (which would re-run the reference code),
         # then fill in exactly the fields setup() sets, so we can reuse its validate().
@@ -213,7 +232,11 @@ class BioCoderEpisode:
         try:
             if action == "validate_code":
                 code = self.task.context.replace(self.task.context_pattern, "\n" + params["code"] + "\n")
-                results = validate_code(code)
+                _CODE_CAP.seconds = self.code_timeout
+                try:
+                    results = validate_code(code)
+                finally:
+                    _CODE_CAP.seconds = None
             elif action == "terminal":
                 results = self._terminal(params["cmd"])
             elif action == "debug":
