@@ -114,6 +114,9 @@ class MedAgentGymAgentLoop(AgentLoopBase):
         solved, turns, parsed_turns = False, 0, 0
         actions: list[str] = []
         stop_reason = "max_turns"
+        # Rollout bookkeeping from the LLM server (min/max_global_steps = which policy version generated
+        # this trajectory). VeRL's V1 trainer reads these tags; ToolAgentLoop copies them the same way.
+        server_fields: dict[str, Any] = {}
 
         while turns < self.max_turns:
             remaining = self.response_length - len(response_mask)
@@ -126,6 +129,10 @@ class MedAgentGymAgentLoop(AgentLoopBase):
             with simple_timer("generate_sequences", metrics):
                 out = await self._generate(all_ids, gen_params, request_id)
             turns += 1
+            if not server_fields:
+                server_fields.update(out.extra_fields or {})
+            elif (out.extra_fields or {}).get("max_global_steps") is not None:
+                server_fields["max_global_steps"] = out.extra_fields["max_global_steps"]
             all_ids += out.token_ids
             response_mask += [1] * len(out.token_ids)
             if out.log_probs:
@@ -169,6 +176,7 @@ class MedAgentGymAgentLoop(AgentLoopBase):
             num_turns=2 * turns,
             metrics=metrics,
             extra_fields={
+                **server_fields,
                 "task_index": task_index,
                 "mode": mode,
                 "solved": float(solved),

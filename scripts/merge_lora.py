@@ -5,7 +5,8 @@ weights unmerged, so this script runs it and then merges with PEFT.
 
 Usage:
   python scripts/merge_lora.py --ckpt_dir <sft run dir> --base Qwen/Qwen2.5-7B-Instruct --out <merged dir>
-  (uses the latest global_step_* in ckpt_dir)
+  (uses the latest global_step_* in ckpt_dir, or pass a global_step_N folder directly)
+  RL checkpoints: --base must be the model RL started from (the merged SFT model), not base Qwen.
 """
 import argparse
 import glob
@@ -34,7 +35,10 @@ def main():
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
 
-    step_dir = latest_step(args.ckpt_dir)
+    step_dir = latest_step(args.ckpt_dir) if not re.search(r"global_step_\d+/?$", args.ckpt_dir) else args.ckpt_dir
+    # RL (PPO trainer) checkpoints keep the model shards in global_step_N/actor; SFT ones directly in global_step_N
+    if os.path.isdir(os.path.join(step_dir, "actor")):
+        step_dir = os.path.join(step_dir, "actor")
     print("checkpoint:", step_dir)
     tmp = tempfile.mkdtemp(dir=os.path.dirname(os.path.abspath(args.out)), prefix="merge_tmp_")
     subprocess.run([sys.executable, "-m", "verl.model_merger", "merge", "--backend", "fsdp",

@@ -33,6 +33,7 @@ export TEACHER_PATH="${TEACHER_PATH:-Qwen/Qwen2.5-14B-Instruct}"
 # Override for 141 GB H200s, where the student fits on 1 GPU (2-GPU job, easier to schedule):
 #   N_GPUS=1 sbatch --partition=h200_public --gres=gpu:2 train/opd_smoke.sbatch
 export N_GPUS="${N_GPUS:-2}" TEACHER_GPUS="${TEACHER_GPUS:-1}"
+export RUN_NAME="opd_smoke_${SLURM_JOB_ID}"
 OUT="$SCRATCH/capstone/runs/opd_smoke_${SLURM_JOB_ID}"
 mkdir -p "$OUT"
 nvidia-smi --query-gpu=name,memory.total --format=csv

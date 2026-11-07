@@ -4,7 +4,8 @@
 # Required env:
 #   MEDAGENTGYM_ROOT  path to the MedAgentGym clone (task files + ehr_gym package)
 #   STUDENT_PATH      SFT checkpoint to start from (both GRPO and OPD start here)
-#   N_GPUS            GPUs on the node
+#   N_GPUS            GPUs for the student (actor + its vLLM rollout)
+#   RUN_NAME          checkpoint folder name under $SCRATCH/capstone/checkpoints (resume uses it)
 set -euo pipefail
 REPO=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 export PYTHONPATH="$REPO:${MEDAGENTGYM_ROOT}:${PYTHONPATH:-}"
@@ -50,7 +51,16 @@ COMMON_ARGS=(
   trainer.n_gpus_per_node="${N_GPUS}"
   trainer.nnodes=1
   trainer.logger='["console"]'
-  trainer.test_freq=10
-  trainer.save_freq=10
-  trainer.total_epochs=5
+  # No in-training validation: it would run the test set through an untested code path every few steps,
+  # and checkpoints must not be chosen on test scores. Checkpoints are evaluated afterwards with
+  # train/eval_ckpt.sbatch (same eval script as every baseline).
+  trainer.val_before_train=false
+  trainer.test_freq=-1
+  trainer.save_freq="${SAVE_FREQ:-5}"
+  trainer.max_actor_ckpt_to_keep="${KEEP_CKPTS:-3}"
+  trainer.total_epochs="${EPOCHS:-5}"
+  # Absolute checkpoint dir: jobs run in a per-job throwaway folder, so a relative path would put
+  # checkpoints there and a resubmitted job could never resume from them.
+  trainer.default_local_dir="$SCRATCH/capstone/checkpoints/${RUN_NAME:?set RUN_NAME}"
+  trainer.resume_mode=auto
 )
