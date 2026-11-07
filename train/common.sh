@@ -25,6 +25,9 @@ COMMON_ARGS=(
   data.max_response_length=8192          # whole multi-turn episode (assistant + observations)
   data.train_batch_size=32
   data.return_raw_chat=true
+  # The prompt dataset is tiny (429 rows); worker processes add nothing and one was SIGKILLed at the
+  # end of the Nov 7 smoke run. Load in the main process.
+  data.dataloader_num_workers=0
   actor_rollout_ref.model.path="$STUDENT_PATH"
   actor_rollout_ref.model.lora_rank=64
   actor_rollout_ref.model.lora_alpha=128
@@ -38,7 +41,7 @@ COMMON_ARGS=(
   actor_rollout_ref.actor.ppo_max_token_len_per_gpu=16384
   actor_rollout_ref.rollout.name=vllm
   actor_rollout_ref.rollout.temperature=0.6   # paper: 0.6
-  actor_rollout_ref.rollout.n=8
+  actor_rollout_ref.rollout.n="${ROLLOUT_N:-8}"   # rollouts per prompt (GRPO group size)
   actor_rollout_ref.rollout.gpu_memory_utilization=0.5
   # Weights are synced to vLLM in fp32. Qwen2.5-7B's embedding/lm_head are 2.18 GB each, larger than the
   # default 2048 MB bucket, so they take verl's "direct send" path, which only works for CUDA tensors and
