@@ -14,13 +14,14 @@
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 source torch/env.sh
-BASE="${BASE:-$SCRATCH/capstone/models/qwen7b-sft-full}"   # the model the RL run started from
+# BASE_MODEL, not BASE: torch/env.sh uses $BASE for $SCRATCH/capstone and would overwrite it
+BASE_MODEL="${BASE_MODEL:-$SCRATCH/capstone/models/qwen7b-sft-full}"   # the model the RL run started from
 if [ -z "${CKPT:-}" ]; then
   CKPT="$SCRATCH/capstone/checkpoints/${RUN_NAME:?set RUN_NAME or CKPT}"
   [ -n "${STEP:-}" ] && CKPT="$CKPT/global_step_$STEP"
 fi
 TAG="${TAG:-${RUN_NAME:-ckpt}${STEP:+_step$STEP}}"
 MERGED="$SCRATCH/capstone/models/rl_$TAG"
-echo "checkpoint=$CKPT base=$BASE -> $MERGED"
-"$TRAIN_PY" "$REPO/scripts/merge_lora.py" --ckpt_dir "$CKPT" --base "$BASE" --out "$MERGED"
+echo "checkpoint=$CKPT base=$BASE_MODEL -> $MERGED"
+"$TRAIN_PY" "$REPO/scripts/merge_lora.py" --ckpt_dir "$CKPT" --base "$BASE_MODEL" --out "$MERGED"
 [ -n "${SKIP_EVAL:-}" ] || MODEL="$MERGED" TAG="$TAG" bash torch/eval_baseline.sbatch
