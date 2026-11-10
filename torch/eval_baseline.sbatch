@@ -27,17 +27,37 @@ WORK="$SCRATCH/capstone/work/${SLURM_JOB_ID:-local}_$TAG"
 mkdir -p "$WORK/cache" && cd "$WORK"
 
 nvidia-smi --query-gpu=name,memory.total --format=csv
-"$(dirname "$TRAIN_PY")/vllm" serve "$MODEL" --port 8000 --max-model-len 32768 --tensor-parallel-size "$TP" \
+# LOCAL_DEBUGGER=<model>: serve a second model on its own GPU (submit with --gres=gpu:2) and let it
+# answer debug requests, e.g. LOCAL_DEBUGGER=Qwen/Qwen2.5-Coder-32B-Instruct. Student model on GPU 0.
+# Use the GPU ids Slurm assigned (not literal 0/1, which may be other jobs' GPUs on some nodes).
+IFS=, read -r GPU_A GPU_B _ <<< "${CUDA_VISIBLE_DEVICES:-0,1}"
+STUDENT_GPUS=""; [ -n "${LOCAL_DEBUGGER:-}" ] && STUDENT_GPUS="CUDA_VISIBLE_DEVICES=$GPU_A"
+env $STUDENT_GPUS "$(dirname "$TRAIN_PY")/vllm" serve "$MODEL" --port 8000 --max-model-len 32768 --tensor-parallel-size "$TP" \
   --gpu-memory-utilization 0.9 --dtype bfloat16 --served-model-name "$MODEL" \
   > "$OUT/vllm.log" 2>&1 &
 VLLM_PID=$!
-trap 'kill $VLLM_PID 2>/dev/null' EXIT
+DBG_PID=""
+if [ -n "${LOCAL_DEBUGGER:-}" ]; then
+  [ -n "${GPU_B:-}" ] || { echo "LOCAL_DEBUGGER needs 2 GPUs: sbatch --gres=gpu:2"; exit 1; }
+  CUDA_VISIBLE_DEVICES=$GPU_B "$(dirname "$TRAIN_PY")/vllm" serve "$LOCAL_DEBUGGER" --port 8001 --max-model-len 16384 \
+    --gpu-memory-utilization 0.9 --dtype bfloat16 --served-model-name "$LOCAL_DEBUGGER" \
+    > "$OUT/vllm_debugger.log" 2>&1 &
+  DBG_PID=$!
+  export DEBUGGER_API_KEY=EMPTY
+  EVAL_ARGS="${EVAL_ARGS:-} --debugger api --debugger_model $LOCAL_DEBUGGER --debugger_base_url http://localhost:8001/v1"
+fi
+trap 'kill $VLLM_PID $DBG_PID 2>/dev/null' EXIT
 for i in $(seq 1 120); do
   curl -sf localhost:8000/health >/dev/null && break
   sleep 10
 done
 curl -sf localhost:8000/health >/dev/null || { echo "vLLM failed to start"; tail -50 "$OUT/vllm.log"; exit 1; }
 echo "vLLM up after $((i*10))s"
+if [ -n "${LOCAL_DEBUGGER:-}" ]; then
+  for i in $(seq 1 120); do curl -sf localhost:8001/health >/dev/null && break; sleep 10; done
+  curl -sf localhost:8001/health >/dev/null || { echo "debugger vLLM failed to start"; tail -50 "$OUT/vllm_debugger.log"; exit 1; }
+  echo "debugger ($LOCAL_DEBUGGER) up"
+fi
 
 # EVAL_ARGS: extra eval_biocoder.py args, e.g. "--mode train --idx_file $REPO/data/checks/dev_sft_select.json"
 # SYSTEM_ONLY=1: skip the merged-prompt (paper format) run

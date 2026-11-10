@@ -60,7 +60,7 @@ def main():
 
     model = model.merge_and_unload()
     new = model.model.layers[0].self_attn.q_proj.weight.detach()
-    print(f"layer-0 q_proj relative change: {((new - ref).norm() / ref.norm()).item():.4f}")
+    print(f"layer-0 q_proj relative change: {((new - ref).norm() / ref.norm()).item():.2e}")
 
     model.save_pretrained(args.out, safe_serialization=True)
     AutoTokenizer.from_pretrained(args.base).save_pretrained(args.out)

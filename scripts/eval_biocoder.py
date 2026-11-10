@@ -8,7 +8,8 @@ stored in the history is replaced by "Error: <e>. Please regenerate the action."
 
 Usage (inside a GPU job, after `vllm serve` is up):
   python scripts/eval_biocoder.py --model Qwen/Qwen2.5-7B-Instruct --out results/base_qwen7b
-Options: --merge_system (MedAgentGym's vLLM prompt format), --debugger policy|none,
+Options: --merge_system (MedAgentGym's vLLM prompt format), --debugger policy|none|api
+         (api: --debugger_model, --debugger_base_url, key in $DEBUGGER_API_KEY),
          --mode test|train, --limit N, --concurrency 32
 """
 
@@ -59,8 +60,15 @@ async def run_episode(args, client, data_path, index, sem):
                     text = "The debug action is not available. Please fix the code yourself."
                 else:
                     summary_prompt, make_debug = ep.debug_prompts(ep.pending_params)
-                    summary = await chat(client, args.model, [{"role": "user", "content": summary_prompt}], 1024, args.temperature)
-                    text = await chat(client, args.model, [{"role": "user", "content": make_debug(summary)}], 1024, args.temperature)
+                    # "policy": the model under test answers its own debug request; "api": an external
+                    # OpenAI-compatible model does (the paper used GPT-4.1-mini). Same model for every eval.
+                    dbg_client, dbg_model = (args.debug_client, args.debugger_model) if args.debugger == "api" else (client, args.model)
+                    try:
+                        summary = await chat(dbg_client, dbg_model, [{"role": "user", "content": summary_prompt}], 1024, args.temperature)
+                        text = await chat(dbg_client, dbg_model, [{"role": "user", "content": make_debug(summary)}], 1024, args.temperature)
+                    except Exception as e:  # API outage etc.: record it, don't kill the episode
+                        record["debug_errors"] = record.get("debug_errors", 0) + 1
+                        text = f"The debugger is unavailable ({type(e).__name__}). Please fix the code yourself."
                 result = ep.finish_debug(text)
             record["actions"].append(result.action if result.parsed else "parse_error")
             if result.done:
@@ -82,6 +90,11 @@ async def main_async(args):
         indices = [i for i, t in enumerate(tasks) if str(t["idx"]) in keep]
     indices = indices[: args.limit or None]
     client = AsyncOpenAI(base_url=args.base_url, api_key="EMPTY", timeout=3600)
+    if args.debugger == "api":
+        key = os.environ.get("DEBUGGER_API_KEY")
+        if not key or not args.debugger_model:
+            sys.exit("--debugger api needs --debugger_model and the DEBUGGER_API_KEY environment variable")
+        args.debug_client = AsyncOpenAI(base_url=args.debugger_base_url, api_key=key, timeout=600)
     sem = asyncio.Semaphore(args.concurrency)
     os.makedirs(args.out, exist_ok=True)
     t0 = time.time()
@@ -102,7 +115,10 @@ async def main_async(args):
         summary = {"all": {"solved": k, "n": n, "pct": round(100 * k / max(n, 1), 2)},
                    "mean_turns": round(sum(r["turns"] for r in results) / max(n, 1), 2),
                    "mode": args.mode, "idx_file": args.idx_file}
-    summary.update({"model": args.model, "merge_system": args.merge_system, "debugger": args.debugger,
+    summary.update({"model": args.model, "merge_system": args.merge_system,
+                    "debugger": args.debugger if args.debugger != "api" else f"api:{args.debugger_model}",
+                    "debug_calls": sum(a == "debug" for r in results for a in r["actions"]),
+                    "debug_errors": sum(r.get("debug_errors", 0) for r in results),
                     "temperature": args.temperature, "minutes": round((time.time() - t0) / 60, 1)})
     with open(os.path.join(args.out, "summary.json"), "w") as f:
         json.dump(summary, f, indent=2)
@@ -118,7 +134,9 @@ def main():
     ap.add_argument("--base_url", default="http://localhost:8000/v1")
     ap.add_argument("--mode", default="test")
     ap.add_argument("--merge_system", action="store_true")
-    ap.add_argument("--debugger", default="policy", choices=["policy", "none"])
+    ap.add_argument("--debugger", default="policy", choices=["policy", "none", "api"])
+    ap.add_argument("--debugger_model", default=None, help="e.g. deepseek-chat (with --debugger api)")
+    ap.add_argument("--debugger_base_url", default="https://api.deepseek.com", help="OpenAI-compatible endpoint")
     ap.add_argument("--max_turns", type=int, default=15)
     ap.add_argument("--max_tokens", type=int, default=8192)
     ap.add_argument("--temperature", type=float, default=0.0)
