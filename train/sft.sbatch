@@ -26,6 +26,10 @@ source torch/env.sh
 # VeRL's trainer loads the model with flash_attention_2; setup.sh installs verl[vllm], which does not pull flash-attn
 "$TRAIN_PY" -c "import flash_attn, peft" || { echo "flash_attn or peft missing in trainenv (see README: SFT)"; exit 1; }
 DATA="${DATA:-full}"
+# SFT_SRC: folder holding sft_${DATA}_{train,val}.parquet. Default is the repo's BioCoder data; the multi-dataset
+# set (DATA=multi) lives outside the repo: SFT_SRC=$SCRATCH/capstone/data/sft_multi (PhysioNet-derived, never commit)
+SFT_SRC="${SFT_SRC:-$REPO/data/sft}"
+MAX_LEN="${MAX_LEN:-10240}"
 BASE_MODEL="${BASE_MODEL:-Qwen/Qwen2.5-7B-Instruct}"
 EPOCHS="${EPOCHS:-2}"
 # 3 epochs (run 1, Nov 2) overfit: val loss bottomed at ~0.164 around steps 40-80 and rose to 0.185 by
@@ -43,8 +47,9 @@ OFFLOAD=false; [ "$GPU_MB" -lt 60000 ] && OFFLOAD=true
 echo "GPU memory ${GPU_MB} MiB -> param_offload=$OFFLOAD"
 
 SFT_DATA="$CKPT/data"
-"$TRAIN_PY" "$REPO/scripts/filter_sft_length.py" --tokenizer "$BASE_MODEL" --max_tokens 10240 --out_dir "$SFT_DATA" \
-  "$REPO/data/sft/sft_${DATA}_train.parquet" "$REPO/data/sft/sft_${DATA}_val.parquet"
+"$TRAIN_PY" "$REPO/scripts/filter_sft_length.py" --tokenizer "$BASE_MODEL" --max_tokens "$MAX_LEN" --out_dir "$SFT_DATA" \
+  "$SFT_SRC/sft_${DATA}_train.parquet" "$SFT_SRC/sft_${DATA}_val.parquet"
+[ "$DATA" = multi ] && chmod -R go-rwx "$CKPT"
 
 echo "=== SFT ($DATA, $EPOCHS epochs) ==="
 "$BIN/torchrun" --standalone --nnodes=1 --nproc_per_node=1 -m verl.trainer.sft_trainer \
@@ -55,7 +60,7 @@ echo "=== SFT ($DATA, $EPOCHS epochs) ==="
   data.micro_batch_size_per_gpu=4 \
   data.use_dynamic_bsz=true \
   data.max_token_len_per_gpu=16384 \
-  data.max_length=10240 \
+  data.max_length="$MAX_LEN" \
   data.truncation=error \
   data.num_workers=4 \
   model.path="$BASE_MODEL" \

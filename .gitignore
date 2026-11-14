@@ -19,3 +19,10 @@ __pycache__/
 cache/
 logs/*.out
 results/*/vllm.log
+
+# PhysioNet / other agreement-restricted data and anything trained on it: never commit
+sft_multi*/
+*mimic*.parquet
+*eicu*.parquet
+*treqs*.parquet
+*ehrshot*
