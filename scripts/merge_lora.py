@@ -39,6 +39,9 @@ def main():
     # RL (PPO trainer) checkpoints keep the model shards in global_step_N/actor; SFT ones directly in global_step_N
     if os.path.isdir(os.path.join(step_dir, "actor")):
         step_dir = os.path.join(step_dir, "actor")
+    if not glob.glob(os.path.join(step_dir, "model_world_size_*")):
+        sys.exit(f"no model weights in {step_dir}: VeRL deletes the weights of older checkpoints beyond "
+                 f"max_actor_ckpt_to_keep (KEEP_CKPTS) and leaves only the folder; this step can't be evaluated")
     print("checkpoint:", step_dir)
     tmp = tempfile.mkdtemp(dir=os.path.dirname(os.path.abspath(args.out)), prefix="merge_tmp_")
     subprocess.run([sys.executable, "-m", "verl.model_merger", "merge", "--backend", "fsdp",
