@@ -27,44 +27,85 @@ WORK="$SCRATCH/capstone/work/${SLURM_JOB_ID:-local}_$TAG"
 mkdir -p "$WORK/cache" && cd "$WORK"
 
 nvidia-smi --query-gpu=name,memory.total --format=csv
-# Ports from the job id: two eval jobs on one node both used 8000 (Nov 13, jobs 23083894/5 on gl034),
-# so one job's eval talked to the other job's model. PORT+1 is the debugger.
-PORT=$(( 20000 + ${SLURM_JOB_ID:-0} % 20000 )); DBG_PORT=$(( PORT + 1 ))
-echo "vLLM port $PORT (debugger $DBG_PORT)"
+# Ports: on Nov 13 two eval jobs on one node (23083894/5, gl034) both used port 8000, so one job's eval
+# talked to the other job's model. Now each server starts at a job-specific port (20000 + job id mod 20000),
+# skips ports already in use, restarts on another port if it still loses the port to someone else, and the
+# job checks that the port really serves our model before evaluating. Student and debugger start together.
+VLLM_BIN="$(dirname "$TRAIN_PY")/vllm"
+NEXT_PORT=$(( 20000 + ${SLURM_JOB_ID:-0} % 20000 ))
+PIDS=""
+trap 'kill $PIDS 2>/dev/null' EXIT
+free_port() {  # first port >= $1 that nothing is listening on
+  "$TRAIN_PY" -c "
+import socket, sys
+for p in range(int(sys.argv[1]), int(sys.argv[1]) + 500):
+    s = socket.socket()
+    try:
+        s.bind(('', p)); print(p); break
+    except OSError:
+        pass
+    finally:
+        s.close()
+else:
+    sys.exit('no free port')" "$1"
+}
+wait_up() {  # $1 pid, $2 port -> 0 up, 1 process exited, 2 timeout (20 min)
+  local k
+  for k in $(seq 1 120); do
+    kill -0 "$1" 2>/dev/null || return 1
+    curl -sf "localhost:$2/health" >/dev/null && return 0
+    sleep 10
+  done
+  return 2
+}
+# server i: LABEL[i] ENVP[i] ("" or CUDA_VISIBLE_DEVICES=..) MDL[i] LEN[i] LOG[i] EXTRA[i]; start_srv fills PORT[i] PID[i]
+declare -a LABEL ENVP MDL LEN LOG EXTRA PORT PID
+start_srv() {
+  local i=$1
+  PORT[$i]=$(free_port "$NEXT_PORT"); NEXT_PORT=$(( PORT[$i] + 1 ))
+  env ${ENVP[$i]} "$VLLM_BIN" serve "${MDL[$i]}" --port "${PORT[$i]}" --max-model-len "${LEN[$i]}" \
+    --gpu-memory-utilization 0.9 --dtype bfloat16 --served-model-name "${MDL[$i]}" ${EXTRA[$i]} > "${LOG[$i]}" 2>&1 &
+  PID[$i]=$!; PIDS="$PIDS ${PID[$i]}"
+}
+ensure_srv() {  # wait until server i is up on a port that serves its model; restart elsewhere if the port was lost
+  local i=$1 rc
+  for attempt in 1 2 3 4 5; do
+    if wait_up "${PID[$i]}" "${PORT[$i]}"; then
+      if curl -sf "localhost:${PORT[$i]}/v1/models" | grep -qF "\"${MDL[$i]}\""; then
+        echo "${LABEL[$i]} up on port ${PORT[$i]} (attempt $attempt)"; return 0
+      fi
+      echo "port ${PORT[$i]} answers but is not serving ${MDL[$i]}; restarting on another port"
+      kill "${PID[$i]}" 2>/dev/null || true
+    else
+      rc=$?
+      [ "$rc" = 2 ] && { echo "${LABEL[$i]} did not start within 20 min"; tail -50 "${LOG[$i]}"; exit 1; }
+      grep -qi "address already in use" "${LOG[$i]}" || { echo "${LABEL[$i]} exited"; tail -50 "${LOG[$i]}"; exit 1; }
+      echo "port ${PORT[$i]} was taken while starting; restarting on another port"
+    fi
+    start_srv "$i"
+  done
+  echo "${LABEL[$i]}: no usable port after 5 attempts"; exit 1
+}
+
 # LOCAL_DEBUGGER=<model>: serve a second model on its own GPU (submit with --gres=gpu:2) and let it
 # answer debug requests, e.g. LOCAL_DEBUGGER=Qwen/Qwen2.5-Coder-32B-Instruct. Student model on GPU 0.
 # Use the GPU ids Slurm assigned (not literal 0/1, which may be other jobs' GPUs on some nodes).
 IFS=, read -r GPU_A GPU_B _ <<< "${CUDA_VISIBLE_DEVICES:-0,1}"
-STUDENT_GPUS=""; [ -n "${LOCAL_DEBUGGER:-}" ] && STUDENT_GPUS="CUDA_VISIBLE_DEVICES=$GPU_A"
-env $STUDENT_GPUS "$(dirname "$TRAIN_PY")/vllm" serve "$MODEL" --port "$PORT" --max-model-len 32768 --tensor-parallel-size "$TP" \
-  --gpu-memory-utilization 0.9 --dtype bfloat16 --served-model-name "$MODEL" \
-  > "$OUT/vllm.log" 2>&1 &
-VLLM_PID=$!
-DBG_PID=""
+[ -z "${LOCAL_DEBUGGER:-}" ] || [ -n "${GPU_B:-}" ] || { echo "LOCAL_DEBUGGER needs 2 GPUs: sbatch --gres=gpu:2"; exit 1; }
+LABEL[0]="vLLM ($MODEL)"; ENVP[0]=""; MDL[0]="$MODEL"; LEN[0]=32768; LOG[0]="$OUT/vllm.log"; EXTRA[0]="--tensor-parallel-size $TP"
+[ -n "${LOCAL_DEBUGGER:-}" ] && ENVP[0]="CUDA_VISIBLE_DEVICES=$GPU_A"
+start_srv 0
 if [ -n "${LOCAL_DEBUGGER:-}" ]; then
-  [ -n "${GPU_B:-}" ] || { echo "LOCAL_DEBUGGER needs 2 GPUs: sbatch --gres=gpu:2"; exit 1; }
-  CUDA_VISIBLE_DEVICES=$GPU_B "$(dirname "$TRAIN_PY")/vllm" serve "$LOCAL_DEBUGGER" --port "$DBG_PORT" --max-model-len 16384 \
-    --gpu-memory-utilization 0.9 --dtype bfloat16 --served-model-name "$LOCAL_DEBUGGER" \
-    > "$OUT/vllm_debugger.log" 2>&1 &
-  DBG_PID=$!
-  export DEBUGGER_API_KEY=EMPTY
-  EVAL_ARGS="${EVAL_ARGS:-} --debugger api --debugger_model $LOCAL_DEBUGGER --debugger_base_url http://localhost:$DBG_PORT/v1"
+  LABEL[1]="debugger ($LOCAL_DEBUGGER)"; ENVP[1]="CUDA_VISIBLE_DEVICES=$GPU_B"; MDL[1]="$LOCAL_DEBUGGER"
+  LEN[1]=16384; LOG[1]="$OUT/vllm_debugger.log"; EXTRA[1]=""
+  start_srv 1   # starts now, in parallel with the student server
 fi
-trap 'kill $VLLM_PID $DBG_PID 2>/dev/null' EXIT
-for i in $(seq 1 120); do
-  curl -sf localhost:$PORT/health >/dev/null && break
-  sleep 10
-done
-curl -sf localhost:$PORT/health >/dev/null || { echo "vLLM failed to start"; tail -50 "$OUT/vllm.log"; exit 1; }
-echo "vLLM up after $((i*10))s"
-# fail if the server on this port is not our model (or our server process died)
-kill -0 $VLLM_PID 2>/dev/null || { echo "our vLLM process exited"; tail -50 "$OUT/vllm.log"; exit 1; }
-curl -sf localhost:$PORT/v1/models | grep -qF "\"$MODEL\"" || { echo "port $PORT is not serving $MODEL"; exit 1; }
-EVAL_ARGS="${EVAL_ARGS:-} --base_url http://localhost:$PORT/v1"
+ensure_srv 0
+EVAL_ARGS="${EVAL_ARGS:-} --base_url http://localhost:${PORT[0]}/v1"
 if [ -n "${LOCAL_DEBUGGER:-}" ]; then
-  for i in $(seq 1 120); do curl -sf localhost:$DBG_PORT/health >/dev/null && break; sleep 10; done
-  curl -sf localhost:$DBG_PORT/health >/dev/null || { echo "debugger vLLM failed to start"; tail -50 "$OUT/vllm_debugger.log"; exit 1; }
-  echo "debugger ($LOCAL_DEBUGGER) up"
+  ensure_srv 1
+  export DEBUGGER_API_KEY=EMPTY
+  EVAL_ARGS="$EVAL_ARGS --debugger api --debugger_model $LOCAL_DEBUGGER --debugger_base_url http://localhost:${PORT[1]}/v1"
 fi
 
 # EVAL_ARGS: extra eval_biocoder.py args, e.g. "--mode train --idx_file $REPO/data/checks/dev_sft_select.json"
