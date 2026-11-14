@@ -29,6 +29,8 @@ DATA="${DATA:-full}"
 # SFT_SRC: folder holding sft_${DATA}_{train,val}.parquet. Default is the repo's BioCoder data; the multi-dataset
 # set (DATA=multi) lives outside the repo: SFT_SRC=$SCRATCH/capstone/data/sft_multi (PhysioNet-derived, never commit)
 SFT_SRC="${SFT_SRC:-$REPO/data/sft}"
+# multi-dataset run: every file this job creates (checkpoint, merged model) is private to you
+[ "$DATA" = multi ] && umask 077
 MAX_LEN="${MAX_LEN:-10240}"
 BASE_MODEL="${BASE_MODEL:-Qwen/Qwen2.5-7B-Instruct}"
 EPOCHS="${EPOCHS:-2}"
@@ -85,6 +87,7 @@ echo "=== SFT ($DATA, $EPOCHS epochs) ==="
 
 echo "=== merge LoRA -> $MERGED ==="
 "$TRAIN_PY" "$REPO/scripts/merge_lora.py" --ckpt_dir "$CKPT" --base "$BASE_MODEL" --out "$MERGED"
+[ "$DATA" = multi ] && chmod -R go-rwx "$MERGED"
 
 if [ -z "${SKIP_EVAL:-}" ]; then
   echo "=== eval ==="
