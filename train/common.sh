@@ -35,7 +35,9 @@ COMMON_ARGS=(
   # adapter. The adapter path crashed in the Nov 3 smoke run: vLLM received an empty adapter
   # (StopIteration in _create_merged_loras_inplace). Merged sync uses the plain full-weight path.
   actor_rollout_ref.model.lora.merge=true
-  actor_rollout_ref.actor.optim.lr=1e-5  # paper: 1e-5
+  # paper: 1e-5 (most likely full fine-tuning). LoRA needs ~10x the full-FT LR (Schulman et al. 2025,
+  # "LoRA Without Regret"), so LR=1e-4 is the LoRA equivalent. Runs before Nov 15 used 1e-5.
+  actor_rollout_ref.actor.optim.lr="${LR:-1e-5}"
   actor_rollout_ref.actor.ppo_mini_batch_size=32
   actor_rollout_ref.actor.use_dynamic_bsz=true          # pack by tokens; one episode is up to 2048+8192
   actor_rollout_ref.actor.ppo_max_token_len_per_gpu=16384
@@ -61,7 +63,7 @@ COMMON_ARGS=(
   trainer.test_freq=-1
   trainer.save_freq="${SAVE_FREQ:-5}"
   trainer.max_actor_ckpt_to_keep="${KEEP_CKPTS:-3}"
-  trainer.total_epochs="${EPOCHS:-5}"
+  trainer.total_epochs="${EPOCHS:-2}"   # all reported runs use 2 epochs = 26 steps (default was 5 until Nov 15)
   # Absolute checkpoint dir: jobs run in a per-job throwaway folder, so a relative path would put
   # checkpoints there and a resubmitted job could never resume from them.
   trainer.default_local_dir="$SCRATCH/capstone/checkpoints/${RUN_NAME:?set RUN_NAME}"

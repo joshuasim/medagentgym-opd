@@ -14,8 +14,12 @@
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 source torch/env.sh
+umask 077   # merged model private (may derive from the PhysioNet-derived multi-dataset SFT)
 # BASE_MODEL, not BASE: torch/env.sh uses $BASE for $SCRATCH/capstone and would overwrite it
-BASE_MODEL="${BASE_MODEL:-$SCRATCH/capstone/models/qwen7b-sft-full}"   # the model the RL run started from
+# the model the RL run started from: recorded by run_rl.sbatch (runs from Nov 15 on); older runs used qwen7b-sft-full
+REC="$SCRATCH/capstone/runs/${RUN_NAME:-none}/student_path.txt"
+if [ -z "${BASE_MODEL:-}" ] && [ -f "$REC" ]; then BASE_MODEL="$(cat "$REC")"; fi
+BASE_MODEL="${BASE_MODEL:-$SCRATCH/capstone/models/qwen7b-sft-full}"
 if [ -z "${CKPT:-}" ]; then
   CKPT="$SCRATCH/capstone/checkpoints/${RUN_NAME:?set RUN_NAME or CKPT}"
   [ -n "${STEP:-}" ] && CKPT="$CKPT/global_step_$STEP"

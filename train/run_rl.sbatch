@@ -19,6 +19,7 @@
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 source torch/env.sh
+umask 077   # checkpoints/rollouts private: students may come from the PhysioNet-derived multi-dataset SFT
 "$TRAIN_PY" -c "import flash_attn, transfer_queue" || { echo "trainenv incomplete (flash_attn / transfer_queue)"; exit 1; }
 METHOD="${METHOD:?METHOD=opd or METHOD=grpo}"
 export RUN_NAME="${RUN_NAME:?set RUN_NAME, e.g. opd_coder32b_s0}"
@@ -28,6 +29,7 @@ export N_GPUS="${N_GPUS:-2}" TEACHER_GPUS="${TEACHER_GPUS:-2}" TEACHER_TP="${TEA
 [ -d "$STUDENT_PATH" ] || { echo "student model not found: $STUDENT_PATH"; exit 1; }
 OUT="$SCRATCH/capstone/runs/$RUN_NAME"
 mkdir -p "$OUT"
+echo "$STUDENT_PATH" > "$OUT/student_path.txt"   # eval_ckpt.sbatch merges onto this model
 LOG="$OUT/train_${SLURM_JOB_ID}.log"
 nvidia-smi --query-gpu=name,memory.total --format=csv
 MIN_MB=$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | sort -n | head -1)
