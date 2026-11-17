@@ -38,7 +38,7 @@ for r in ["grpo_2gpu_s0", "opd_coder32b_v2_s0", "opd_mix_coder32b_s0"]:
         groups = collections.defaultdict(list)
         early_time = early_tok = 0
         for x in rows:
-            groups[str(x.get("uid", "")).rsplit("_", 2)[0]].append(x["score"] > 0)
+            groups[str(x.get("uid", "")).rsplit("_", 2)[0]].append(x["score"] >= 1)
             turns = x["output"].count("\nuser\n") + 1
             if x["score"] <= 0 and turns < 15:
                 if len(x["output"]) > 25000: early_tok += 1

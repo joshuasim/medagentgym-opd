@@ -52,7 +52,8 @@ COMMON_ARGS=(
   actor_rollout_ref.rollout.tensor_model_parallel_size=1
   actor_rollout_ref.rollout.multi_turn.enable=true
   actor_rollout_ref.rollout.agent.default_agent_loop=medagentgym
-  actor_rollout_ref.rollout.agent.agent_loop_config_path="$REPO/configs/agent_loop.yaml"
+  # AGENT_LOOP_CONFIG: configs/agent_loop_format.yaml adds the paper's format reward (Nov 17)
+  actor_rollout_ref.rollout.agent.agent_loop_config_path="${AGENT_LOOP_CONFIG:-$REPO/configs/agent_loop.yaml}"
   trainer.n_gpus_per_node="${N_GPUS}"
   trainer.nnodes=1
   trainer.logger='["console"]'

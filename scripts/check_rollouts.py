@@ -28,7 +28,7 @@ def main():
         scores = [r["score"] for r in rows]
         empty = sum(not r["output"].strip() for r in rows)
         print(f"step {os.path.basename(path)[:-6]}: {len(rows)} rollouts | reward mean {statistics.mean(scores):.3f} | "
-              f"solved {sum(s > 0 for s in scores)}/{len(rows)} | assistant turns mean {statistics.mean(turns):.2f} "
+              f"solved {sum(s >= 1 for s in scores)}/{len(rows)} | assistant turns mean {statistics.mean(turns):.2f} "
               f"max {max(turns)} | multi-turn {sum(t > 1 for t in turns)}/{len(rows)} | empty {empty}")
         for r in rows:
             if shown < args.show:

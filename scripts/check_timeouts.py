@@ -92,7 +92,7 @@ def main():
                 n_ep += 1
                 if msg in x["output"]:
                     n_hit += 1
-                    n_hit_solved += x["score"] > 0
+                    n_hit_solved += x["score"] >= 1
                     idx = next((i for k, i in prompts if k in x["input"]), "?")
                     hit_tasks[idx] += 1
         in_over = sum(c for i, c in hit_tasks.items() if i in over_idx)

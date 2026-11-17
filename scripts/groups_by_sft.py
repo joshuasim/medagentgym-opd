@@ -40,7 +40,7 @@ for r in runs:
             key = next((k for k, _ in keys if k[:200] in g[0]["input"]), None)
             if key is None: unmatched += 1; continue
             lab = "seen" if key in seen else "unseen"
-            ok = [x["score"] > 0 for x in g]
+            ok = [x["score"] >= 1 for x in g]  # solved = 1; a format reward adds at most 0.1
             tot[lab]["all_fail" if not any(ok) else "all_pass" if all(ok) else "mixed"] += 1
     print(f"== {r} (unmatched groups: {unmatched})")
     for lab, c in tot.items():

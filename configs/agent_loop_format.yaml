@@ -1,0 +1,16 @@
+# Pass with: actor_rollout_ref.rollout.agent.agent_loop_config_path=configs/agent_loop.yaml
+# and set PYTHONPATH to include this repo and MEDAGENTGYM_ROOT to the MedAgentGym clone.
+- name: medagentgym
+  _target_: opd.agent_loop.MedAgentGymAgentLoop
+  max_turns: 15              # MedAgentGym num_steps
+  debugger: policy           # "policy" = the model being trained answers debug requests; "none" = disabled
+  debugger_max_tokens: 1024
+  # Paper: correctness + format reward, weight not reported. 0.1 here (Nov 17): GRPO at lr 1e-4 with no format
+  # term drifted into unparseable whitespace loops (80% parse errors at eval); an all-fail group gives GRPO
+  # no gradient, so nothing pushed back. format_score = parsed turns / turns, so reward = solved + 0.1 * format_score.
+  format_reward_weight: 0.1
+  # Training-rollout limits (evaluation keeps MedAgentGym's 120 s and no budget). Without them a few
+  # agents with hanging code held whole batches ~30 min and NYU HPC cancelled the jobs for low GPU use.
+  terminal_timeout: 30
+  code_timeout: 30           # validate_code cap per call; reference answers still get 120 s
+  episode_time_budget: 300   # seconds per episode; stop (unsolved) after this
