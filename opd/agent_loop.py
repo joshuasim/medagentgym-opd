@@ -24,7 +24,7 @@ import time
 from typing import Any
 from uuid import uuid4
 
-from verl.experimental.agent_loop.agent_loop import AgentLoopBase, AgentLoopOutput, register
+from verl.experimental.agent_loop.agent_loop import AgentLoopBase, AgentLoopOutput
 from verl.utils.profiler import simple_timer
 
 from opd.biocoder_env import BioCoderEpisode
@@ -33,7 +33,13 @@ logger = logging.getLogger(__file__)
 logger.setLevel(os.getenv("VERL_LOGGING_LEVEL", "WARN"))
 
 
-@register("medagentgym")
+# No @register here (Nov 18 fix). VeRL registers this class from configs/agent_loop*.yaml (name + settings).
+# A @register decorator runs when hydra first imports this module, i.e. after the yaml was loaded, and replaces
+# the yaml entry with a bare {"_target_": ...}. From then on every episode used the __init__ defaults and the
+# yaml settings (timeouts, format_reward_weight) were silently ignored in all runs before Nov 18.
+_SETTINGS_LOGGED = False
+
+
 class MedAgentGymAgentLoop(AgentLoopBase):
     def __init__(
         self,
@@ -60,6 +66,11 @@ class MedAgentGymAgentLoop(AgentLoopBase):
         self.code_timeout = code_timeout
         self.episode_time_budget = episode_time_budget
         self.response_length = self.rollout_config.response_length
+        global _SETTINGS_LOGGED
+        if not _SETTINGS_LOGGED:  # once per worker process, so the effective settings are visible in the job log
+            _SETTINGS_LOGGED = True
+            print(f"[medagentgym agent loop] max_turns={max_turns} debugger={debugger} format_reward_weight={format_reward_weight} "
+                  f"terminal_timeout={terminal_timeout} code_timeout={code_timeout} episode_time_budget={episode_time_budget}", flush=True)
         # Agent shell commands and task code write into the working directory; keep them out of the repo
         # and MedAgentGym by running this (Ray worker) process in the job's throwaway folder.
         workdir = os.environ.get("MEDAGENTGYM_WORKDIR")

@@ -6,8 +6,10 @@
   debugger: policy           # "policy" = the model being trained answers debug requests; "none" = disabled
   debugger_max_tokens: 1024
   format_reward_weight: 0.0  # paper uses a correctness + format reward; weight not reported
-  # Training-rollout limits (evaluation keeps MedAgentGym's 120 s and no budget). Without them a few
-  # agents with hanging code held whole batches ~30 min and NYU HPC cancelled the jobs for low GPU use.
-  terminal_timeout: 30
-  code_timeout: 30           # validate_code cap per call; reference answers still get 120 s
-  episode_time_budget: 300   # seconds per episode; stop (unsolved) after this
+  # Time limits. These were meant to be 30 s / 30 s / 300 s, but until the Nov 18 fix (see opd/agent_loop.py)
+  # yaml settings were ignored and every training run used the defaults below: MedAgentGym's 120 s per code
+  # run (same as the paper and our eval) and no episode budget. Kept at those values so new runs match all
+  # earlier runs.
+  terminal_timeout: 120
+  code_timeout: null         # null = MedAgentGym's 120 s
+  episode_time_budget: null  # null = no per-episode wall-clock budget
