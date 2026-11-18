@@ -36,7 +36,10 @@ BASE_MODEL="${BASE_MODEL:-Qwen/Qwen2.5-7B-Instruct}"
 EPOCHS="${EPOCHS:-2}"
 # 3 epochs (run 1, Nov 2) overfit: val loss bottomed at ~0.164 around steps 40-80 and rose to 0.185 by
 # step 123 while train loss fell to 0.05. Epoch count is chosen on val loss, never on test accuracy.
-RUN="sft_${DATA}_e${EPOCHS}"
+# LR: paper SFT lr 1e-4 (most likely full fine-tuning); LoRA usually needs ~10x (Schulman et al. 2025). Runs
+# before Nov 18 used 1e-4. A non-default LR is added to the run name, e.g. sft_multi_e2_lr1e-3.
+LR="${LR:-1e-4}"
+RUN="sft_${DATA}_e${EPOCHS}"; [ "$LR" = 1e-4 ] || RUN="${RUN}_lr${LR}"
 CKPT="$SCRATCH/capstone/checkpoints/$RUN"
 MERGED="$SCRATCH/capstone/models/qwen7b-$RUN"
 BIN="$(dirname "$TRAIN_PY")"
@@ -71,7 +74,7 @@ echo "=== SFT ($DATA, $EPOCHS epochs) ==="
   model.target_modules=all-linear \
   model.enable_gradient_checkpointing=true \
   engine.param_offload=$OFFLOAD \
-  optim.lr=1e-4 \
+  optim.lr="$LR" \
   optim.weight_decay=0.0 \
   optim.lr_warmup_steps_ratio=0.05 \
   optim.lr_scheduler_type=cosine \
