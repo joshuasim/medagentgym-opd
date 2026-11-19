@@ -12,6 +12,11 @@ export PYTHONPATH="$REPO:$MEDAGENTGYM_ROOT:${PYTHONPATH:-}"
 export PYTHONHASHSEED=0   # some task outputs print sets; fix iteration order so answers are stable
 export TOKENIZERS_PARALLELISM=false
 export TQDM_DISABLE=1   # MedAgentGym prints a progress bar per code run; silence it in logs
+# Caches on scratch, not /home (Nov 19: /home hit its 30,000-file quota, mostly ~/.cache/uv, ~/.cache/vllm,
+# ~/.cache/pip). XDG_CACHE_HOME covers pip, vLLM, flashinfer and torch; Triton has its own variable.
+export XDG_CACHE_HOME="$BASE/cache"
+export TRITON_CACHE_DIR="$BASE/cache/triton"
+mkdir -p "$XDG_CACHE_HOME" "$TRITON_CACHE_DIR"
 
 # The agent's `terminal` action runs arbitrary shell commands with this PATH. On Nov 2 an agent ran
 # `pip install ...` during an eval: `pip` resolved to trainenv's pip, which started replacing torch/numpy/
