@@ -70,3 +70,16 @@ COMMON_ARGS=(
   trainer.default_local_dir="$SCRATCH/capstone/checkpoints/${RUN_NAME:?set RUN_NAME}"
   trainer.resume_mode=auto
 )
+# SEED (Nov 22): unset = add nothing, so every earlier run reproduces exactly. Those runs used VeRL's
+# defaults: data.seed=null (a fresh torch.Generator, whose default seed is fixed, so every run saw the same
+# task order), rollout.seed=42 (vLLM sampling), actor fsdp_config.seed=42 (LoRA init). A replicate sets
+# SEED=1, 2, ... to change all three. PYTHONHASHSEED stays 0 (VeRL only overwrites it under
+# full_determinism, which is off), so BioCoder reference answers do not change with SEED.
+if [ -n "${SEED:-}" ]; then
+  COMMON_ARGS+=(
+    data.seed="$SEED"
+    actor_rollout_ref.rollout.seed="$((42 + SEED))"
+    actor_rollout_ref.actor.fsdp_config.seed="$((42 + SEED))"
+  )
+fi
+echo "[seed] SEED=${SEED:-unset (VeRL defaults)}"
