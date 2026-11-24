@@ -42,18 +42,37 @@ async def run_episode(args, client, data_path, index, sem):
         history = build_initial_messages(ep.task_data, merge_system_into_user=args.merge_system)
         record = {"index": index, "idx": ep.task_data["idx"], "solved": False, "turns": 0,
                   "actions": [], "stop": "max_turns"}
-        for _ in range(args.max_turns):
+        retries = 0
+        while record["turns"] < args.max_turns:
             try:
                 reply = await chat(client, args.model, history, args.max_tokens, args.temperature)
             except Exception as e:  # context too long etc.
                 record["stop"] = f"llm_error: {type(e).__name__}"
                 break
-            record["turns"] += 1
             try:
                 parse_llm_response(reply)
                 history.append({"role": "assistant", "content": reply})
+                parsed = True
             except Exception as e:  # MedAgentGym: store a regenerate request instead of the reply
                 history.append({"role": "assistant", "content": f"Error: {e}. Please regenerate the action."})
+                parsed = False
+            if not parsed and args.parse_retry > 0:
+                # --parse_retry N: MedAgentGym's main.py with its retry check working (Nov 24).
+                # In the released code agent.act() returns "error: str(...)" but main.py checks
+                # action == 'error', so the retry never runs and the error is sent to env.step()
+                # as an action (one turn used; our default, same as the public code). With the
+                # check working: the agent is asked again with the same observation (act()
+                # re-appends it), no turn is used, and the episode fails when the cumulative
+                # retry count reaches Env.n_retry (3 in configs/gpt_4_1_mini/*biocoder.yaml).
+                retries += 1
+                record["parse_retries"] = retries
+                if retries >= args.parse_retry:
+                    record["stop"] = "parse_retry_limit"
+                    break
+                last_user = next(m["content"] for m in reversed(history) if m["role"] == "user")
+                history.append({"role": "user", "content": last_user})
+                continue
+            record["turns"] += 1
             result = await loop.run_in_executor(None, ep.step, reply)
             if result is None:  # debug action
                 if args.debugger == "none":
@@ -119,6 +138,9 @@ async def main_async(args):
                     "debugger": args.debugger if args.debugger != "api" else f"api:{args.debugger_model}",
                     "debug_calls": sum(a == "debug" for r in results for a in r["actions"]),
                     "debug_errors": sum(r.get("debug_errors", 0) for r in results),
+                    "parse_retry": args.parse_retry,
+                    "parse_retries": sum(r.get("parse_retries", 0) for r in results),
+                    "parse_retry_failures": sum(r["stop"] == "parse_retry_limit" for r in results),
                     "temperature": args.temperature, "minutes": round((time.time() - t0) / 60, 1)})
     with open(os.path.join(args.out, "summary.json"), "w") as f:
         json.dump(summary, f, indent=2)
@@ -138,6 +160,9 @@ def main():
     ap.add_argument("--debugger_model", default=None, help="e.g. deepseek-chat (with --debugger api)")
     ap.add_argument("--debugger_base_url", default="https://api.deepseek.com", help="OpenAI-compatible endpoint")
     ap.add_argument("--max_turns", type=int, default=15)
+    ap.add_argument("--parse_retry", type=int, default=0,
+                    help="0 = public MedAgentGym behavior (parse error uses a turn). N>0 = re-ask without "
+                         "using a turn; episode fails at the N-th parse error (MedAgentGym Env.n_retry = 3)")
     ap.add_argument("--max_tokens", type=int, default=8192)
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--concurrency", type=int, default=32)
