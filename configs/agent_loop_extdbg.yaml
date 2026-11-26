@@ -1,0 +1,12 @@
+# Same settings as configs/agent_loop.yaml, but debug requests are answered by an external model
+# (Nov 25 experiment; see opd/agent_loop_extdbg.py and train/run_grpo_extdbg.sbatch).
+- name: medagentgym
+  _target_: opd.agent_loop_extdbg.MedAgentGymExtDebugAgentLoop
+  max_turns: 15
+  debugger: external         # served by train/run_grpo_extdbg.sbatch (DEBUGGER_BASE_URL / DEBUGGER_MODEL)
+  debugger_max_tokens: 1024
+  debugger_temperature: 0.0
+  format_reward_weight: 0.0
+  terminal_timeout: 120
+  code_timeout: null
+  episode_time_budget: null
